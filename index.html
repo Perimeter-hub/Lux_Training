@@ -366,6 +366,13 @@ body{font-family:-apple-system,Roboto,sans-serif;background:var(--bg);overflow:h
 
 </div><!-- /main -->
 
+<script>
+var _initDone=false,_pendingNav=null;
+function goHome(){if(_initDone)_goHome();else _pendingNav='home';}
+function goTab(n){if(_initDone)_goTab(n);else _pendingNav=n;}
+function goExam(){if(_initDone)_goExam();else _pendingNav='exam';}
+function goProgress(){if(_initDone)_goProgress();else _pendingNav='progress';}
+</script>
 <!-- BOTTOM NAV -->
 <div id="bottomnav">
   <button class="nvi" id="nb-home" onclick="goHome()"><span class="nvi-i">&#x1F3E0;</span><span class="nvi-l">Уроки</span></button>
@@ -1222,9 +1229,9 @@ try { examStats = JSON.parse(localStorage.getItem('lux77exam') || '{"passed":0,"
 // ══════════════════════════════════════════════
 // НАВИГАЦИЯ
 // ══════════════════════════════════════════════
-function goHome() {
+function _goHomeInternal() {
   showScr('home'); setNav('nb-home');
-  document.getElementById('tb-name').textContent = 'L\u00ebtzebuergesch Snell!';
+  document.getElementById('tb-name').textContent = 'Lëtzebuergesch Snell!';
   document.getElementById('tb-sub').textContent = 'LUXEMBURGSKIJ \u00b7 77 UROKOV';
   updateExamMini();
 }
@@ -1816,6 +1823,11 @@ if (window.speechSynthesis) {
 var hasDone = false;
 try { hasDone = JSON.parse(localStorage.getItem('lux77') || '[]').length > 0; } catch(e){}
 if (hasDone) { showScr('home'); setNav('nb-home'); }
+_initDone=true;
+if(_pendingNav==='home'||!_pendingNav){_goHome();}
+else if(_pendingNav==='exam'){_goExam();}
+else if(_pendingNav==='progress'){_goProgress();}
+else if(_pendingNav){_goTab(_pendingNav);}
 buildHome();
 checkVoiceAndShow();
 </script>
