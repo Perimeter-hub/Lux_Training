@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#C4282C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Letzebuergesch Snell! — OPAT 25!</title>
+<style>
+:root{--g:#C4282C;--gd:#8B1A1E;--gl:#FAEBEC;--pu:#7F77DD;--pl:#EEEDFE;--or:#D85A30;--ol:#FAECE7;--am:#EF9F27;--bl:#1D6EA8;--bll:#E6F1FB;--bdr:#E0E0E0;--txt:#1A1A1A;--txt2:#666;--bg:#F4F6F8;--r:14px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,Roboto,sans-serif;background:var(--bg);overflow:hidden;height:100vh}
+
+/* TOP BAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,var(--g),var(--gd));padding:0 14px;height:58px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+#tb-flag{font-size:24px;flex-shrink:0}
+#tb-info{flex:1;min-width:0}
+#tb-name{font-size:15px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tb-sub{font-size:10px;color:rgba(255,255,255,.75)}
+#tb-tm{background:rgba(0,0,0,.2);border-radius:10px;padding:4px 9px;flex-shrink:0;text-align:center}
+#tb-tm-t{font-size:12px;font-weight:900;color:var(--am)}
+#tb-tm-s{font-size:9px;color:rgba(255,255,255,.65)}
+
+/* BOTTOM NAV */
+#bottomnav{position:fixed;bottom:0;left:0;right:0;z-index:999;background:#fff;border-top:1px solid var(--bdr);display:flex;opacity:.5;pointer-events:none;transition:all .4s}
+.nvi{flex:1;border:none;background:none;padding:10px 2px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nvi-i{font-size:20px}.nvi-l{font-size:10px;font-weight:600;color:var(--txt2)}
+.nvi.on .nvi-l{color:var(--g)}.nvi.on .nvi-i{transform:scale(1.1)}
+
+/* MAIN */
+#main{position:fixed;top:58px;bottom:64px;left:0;right:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scr{display:none;padding:14px}.scr.on{display:block}
+
+/* SPLASH */
+#scr-splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 130px);padding:20px}
+.spl-card{width:180px;height:200px;background:var(--g);border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 6px 24px rgba(196,40,44,.35)}
+.spl-flag{font-size:32px;margin-bottom:4px}
+.spl-name{font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px;text-align:center;line-height:1.1}
+.spl-sub{font-size:10px;color:rgba(255,255,255,.75);letter-spacing:2px;margin-top:3px}
+.spl-tm{background:rgba(0,0,0,.25);border-radius:9px;padding:5px 11px;margin-top:8px;text-align:center}
+.spl-tm-t{font-size:13px;font-weight:900;color:var(--am)}
+.spl-tm-s{font-size:9px;color:rgba(255,255,255,.65);letter-spacing:1px}
+.spl-person{background:#fff;border-radius:var(--r);padding:14px;margin-bottom:16px;width:100%;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.spl-person-t{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:10px}
+.spl-chars{display:flex;gap:10px;justify-content:center}
+.spl-char{text-align:center;flex:1}
+.spl-ava{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;margin:0 auto 5px}
+.spl-char-n{font-size:12px;font-weight:700;color:var(--txt)}
+.spl-char-r{font-size:11px;color:var(--txt2)}
+.spl-hobbies{background:var(--bll);border:1px solid #B5D4F4;border-radius:var(--r);padding:11px;margin-bottom:16px;width:100%}
+.spl-hobbies-t{font-size:13px;font-weight:700;color:var(--bl);margin-bottom:6px}
+.spl-hobby{font-size:13px;color:var(--txt);padding:3px 0}
+.spl-btn{width:100%;padding:15px;background:var(--g);color:#fff;border:none;border-radius:var(--r);font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 3px 14px rgba(196,40,44,.4);opacity:.5;pointer-events:none;transition:all .4s}
+
+/* HOME */
+.home-hdr{background:var(--gl);border:1px solid #E8A0A2;border-radius:var(--r);padding:13px;margin-bottom:13px}
+.home-hdr-t{font-size:14px;font-weight:700;color:var(--gd);margin-bottom:4px}
+.home-hdr-d{font-size:13px;color:#5A1215;line-height:1.5}
+#lesson-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.lcard{background:#fff;border:2px solid var(--bdr);border-radius:var(--r);padding:12px 10px;cursor:pointer;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.06);width:100%}
+.lcard:active{transform:scale(.97)}
+.lcard.done{border-color:#E8A0A2;background:var(--gl)}
+.lcard.cur{border-color:var(--g);background:#FDF2F2}
+.lcard.f1{border-left:3px solid var(--am)}
+.lcard.chess{border-left:3px solid var(--pu)}
+.lcard.exam{border-left:3px solid var(--bl);background:var(--bll)}
+.lcard-ic{font-size:20px;margin-bottom:4px}
+.lcard-num{font-size:10px;font-weight:700;color:var(--txt2);margin-bottom:2px}
+.lcard-name{font-size:12px;font-weight:600;color:var(--txt);line-height:1.3}
+.lcard-tag{display:inline-block;font-size:9px;font-weight:700;padding:1px 5px;border-radius:6px;margin-top:3px}
+.tag-f1{background:#FFF3CD;color:#8B5A00}
+.tag-chess{background:var(--pl);color:#3C3489}
+.tag-exam{background:var(--bll);color:#185FA5}
+
+/* LESSON */
+.lesson-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.lesson-title{font-size:18px;font-weight:700;color:var(--txt)}
+.lesson-sub{font-size:11px;color:var(--txt2)}
+.badge{font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-a1{background:var(--gl);color:var(--gd)}
+.badge-a2{background:var(--pl);color:#3C3489}
+.badge-b1{background:var(--bll);color:#185FA5}
+.pbar{background:#EEE;border-radius:5px;height:6px;margin:6px 0 12px}
+.pfill{background:var(--g);height:6px;border-radius:5px;transition:width .4s}
+.tip{background:var(--gl);border:1px solid #E8A0A2;border-radius:var(--r);padding:10px 12px;font-size:13px;color:#5A1215;line-height:1.5;display:flex;gap:8px;margin-bottom:11px}
+.tip.pu{background:var(--pl);border-color:#AFA9EC;color:#3C3489}
+.tip.bl{background:var(--bll);border-color:#85B7EB;color:#0C447C}
+.dtabs{display:flex;gap:8px;margin-bottom:11px}
+.dtab{flex:1;padding:9px;border-radius:9px;font-size:13px;font-weight:600;border:2px solid var(--bdr);background:#fff;cursor:pointer;text-align:center;color:var(--txt2)}
+.dtab.on{border-color:var(--g);background:var(--gl);color:var(--gd)}
+.dtab.pu.on{border-color:var(--pu);background:var(--pl);color:#3C3489}
+
+/* DIALOG */
+.arow{display:flex;gap:9px;margin-bottom:11px;align-items:flex-start}
+.ava{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;cursor:pointer;user-select:none}
+.ava.L{background:linear-gradient(135deg,#C4282C,#8B1A1E)}
+.ava.A{background:linear-gradient(135deg,#D85A30,#993C1D)}
+.ava.J{background:linear-gradient(135deg,#7F77DD,#534AB7)}
+.bub{flex:1;background:#fff;border-radius:0 12px 12px 12px;border:1px solid var(--bdr);padding:9px 11px}
+.bub.L{border-left:3px solid var(--g)}
+.bub.A{border-left:3px solid var(--or)}
+.bub.J{border-left:3px solid var(--pu)}
+.bwho{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.bcz{font-size:16px;font-weight:600;color:var(--txt);line-height:1.4}
+.bph{font-size:12px;color:var(--gd);font-style:italic;margin-top:2px}
+.bru{font-size:13px;color:var(--txt2);margin-top:2px;line-height:1.4}
+.crow{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.pb{width:38px;height:38px;border-radius:50%;background:var(--g);border:none;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;transition:transform .1s;display:flex;align-items:center;justify-content:center}
+.pb:active{transform:scale(.9)}.pb.pu{background:var(--pu)}
+.sps{display:flex;gap:4px}
+.sp{padding:5px 11px;border-radius:14px;font-size:13px;font-weight:700;border:1.5px solid var(--bdr);background:#fff;color:var(--txt2);cursor:pointer;transition:all .15s}
+.sp.on{background:var(--g);color:#fff;border-color:var(--g)}
+.micbtn{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:19px;border:1.5px solid var(--bdr);background:#fff;font-size:13px;font-weight:600;color:var(--txt2);cursor:pointer;transition:all .2s}
+.micbtn.rec{background:var(--ol);border-color:var(--or);color:var(--or)}
+.micbtn.pu-mic{border-color:var(--pu);color:var(--pu)}
+.micbtn.pu-mic.rec{background:var(--pl);border-color:var(--pu);color:var(--pu)}
+.micbtn.mic-rep{border-color:var(--g);color:var(--gd);background:var(--gl)}
+.micbtn.mic-rep.rec{background:#F5CBCC;border-color:var(--gd);color:var(--gd)}
+.rdot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse .8s infinite;display:inline-block}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(.6)}}
+.splayer{display:none;margin-top:7px;background:#FFF8F6;border:1.5px solid var(--or);border-radius:10px;padding:9px 11px}
+.splayer.show{display:block}.splayer.pu-pl{background:#F8F7FF;border-color:var(--pu)}
+.splayer.g-pl{background:var(--gl);border-color:var(--g)}
+.splayer-lbl{font-size:10px;font-weight:700;color:var(--or);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.splayer.pu-pl .splayer-lbl{color:var(--pu)}.splayer.g-pl .splayer-lbl{color:var(--gd)}
+.spl-row{display:flex;align-items:center;gap:8px}
+.spl-play{width:32px;height:32px;border-radius:50%;background:var(--or);border:none;color:#fff;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.splayer.pu-pl .spl-play{background:var(--pu)}.splayer.g-pl .spl-play{background:var(--g)}
+.spl-wave{flex:1;height:26px;background:#FFE8E3;border-radius:6px;display:flex;align-items:center;justify-content:center;gap:2px;padding:0 5px}
+.splayer.pu-pl .spl-wave{background:#EEEDFE}.splayer.g-pl .spl-wave{background:#C8EDD9}
+.sw{width:3px;border-radius:2px;background:var(--or);height:20%}
+.splayer.pu-pl .sw{background:var(--pu)}.splayer.g-pl .sw{background:var(--g)}
+.cmp-row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;align-items:center}
+.cmp-l{padding:5px 10px;border-radius:13px;background:var(--gl);border:1.5px solid var(--g);color:var(--gd);font-size:12px;font-weight:700;cursor:pointer}
+.cmp-me{padding:5px 10px;border-radius:13px;background:#FFF8F6;border:1.5px solid var(--or);color:var(--or);font-size:12px;font-weight:700;cursor:pointer}
+.cmp-me.pu{background:var(--pl);border-color:var(--pu);color:var(--pu)}
+.cmp-hint{font-size:11px;color:var(--txt2)}
+.done-btn{width:100%;margin-top:13px;padding:14px;background:var(--g);color:#fff;border:none;border-radius:var(--r);font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(196,40,44,.3)}
+
+/* WORDS */
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.wcard{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:11px 10px;cursor:pointer;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.wcard:active{background:var(--gl);border-color:var(--g)}
+.wic{font-size:20px;margin-bottom:4px}.wcz{font-size:14px;font-weight:700;color:var(--txt)}.wru{font-size:12px;color:var(--txt2);margin-top:2px}.wph{font-size:11px;color:var(--gd);font-style:italic;margin-top:2px}
+
+/* EXERCISES */
+.excard{background:#fff;border-radius:var(--r);border:1px solid var(--bdr);padding:13px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.exnum{font-size:10px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.exq{font-size:15px;font-weight:500;color:var(--txt);line-height:1.5;margin-bottom:11px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{padding:12px 13px;border-radius:9px;border:2px solid var(--bdr);background:#fff;font-size:15px;color:var(--txt);text-align:left;cursor:pointer;line-height:1.4}
+.opt:active{transform:scale(.98)}.opt.ok{background:var(--gl);border-color:var(--g);color:var(--gd);font-weight:600}.opt.no{background:var(--ol);border-color:var(--or);color:#993C1D}
+.fb{display:none;margin-top:8px;padding:10px 12px;border-radius:9px;font-size:14px;font-weight:600;line-height:1.5}
+.fb.ok{background:var(--gl);border:1px solid var(--g);color:var(--gd)}.fb.no{background:var(--ol);border:1px solid var(--or);color:#993C1D}
+.fb-explain{font-size:13px;font-weight:400;margin-top:5px;opacity:.85}
+
+/* EXAM */
+.exam-hdr{background:var(--bll);border:1px solid #85B7EB;border-radius:var(--r);padding:13px;margin-bottom:13px}
+.exam-hdr-t{font-size:16px;font-weight:700;color:#0C447C;margin-bottom:4px}
+.exam-hdr-d{font-size:13px;color:#185FA5;line-height:1.5}
+.exam-stats{display:flex;gap:10px;margin-bottom:13px}
+.exam-stat{flex:1;background:#fff;border-radius:var(--r);border:1px solid var(--bdr);padding:11px 8px;text-align:center}
+.exam-stat-n{font-size:22px;font-weight:700}
+.exam-stat-l{font-size:11px;color:var(--txt2);margin-top:2px}
+.exam-q{background:#fff;border-radius:var(--r);border:1px solid var(--bdr);padding:14px;margin-bottom:12px}
+.exam-q-num{font-size:11px;font-weight:700;color:var(--bl);text-transform:uppercase;margin-bottom:6px}
+.exam-q-text{font-size:16px;font-weight:500;color:var(--txt);margin-bottom:12px;line-height:1.5}
+.exam-q-audio{display:flex;align-items:center;gap:8px;background:var(--bll);border-radius:9px;padding:9px 12px;margin-bottom:12px}
+.exam-result{background:#fff;border-radius:var(--r);border:2px solid var(--bdr);padding:16px;text-align:center;margin-bottom:12px}
+.exam-result.pass{border-color:var(--g);background:var(--gl)}
+.exam-result.fail{border-color:var(--or);background:var(--ol)}
+.exam-result-icon{font-size:40px;margin-bottom:8px}
+.exam-result-t{font-size:20px;font-weight:700;margin-bottom:4px}
+.exam-result-s{font-size:14px;color:var(--txt2)}
+.exam-retry{width:100%;padding:14px;background:var(--bl);color:#fff;border:none;border-radius:var(--r);font-size:16px;font-weight:700;cursor:pointer;margin-top:10px}
+.exam-review{background:#fff;border-radius:var(--r);border:1px solid var(--bdr);padding:13px;margin-bottom:10px}
+.exam-review-t{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.exam-review-ans{font-size:13px;padding:6px 10px;border-radius:7px;margin-bottom:4px}
+.exam-review-ans.ok{background:var(--gl);color:var(--gd)}
+.exam-review-ans.no{background:var(--ol);color:#993C1D}
+.exam-review-exp{font-size:12px;color:var(--txt2);margin-top:3px;padding-left:8px}
+
+/* PROGRESS */
+.stat3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:11px}
+.stat{background:#fff;border-radius:var(--r);border:1px solid var(--bdr);padding:11px 8px;text-align:center}
+.statn{font-size:22px;font-weight:700;color:var(--g)}.statl{font-size:11px;color:var(--txt2);margin-top:2px}
+.pcard{background:#fff;border-radius:var(--r);border:1px solid var(--bdr);padding:12px;margin-bottom:10px}
+.pcard-t{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.prow{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr)}
+.prow:last-child{border-bottom:none}
+.prow-ic{font-size:16px;width:24px;text-align:center}
+.prow-nm{flex:1;font-size:13px;color:var(--txt);font-weight:500}
+.pbdg{padding:2px 8px;border-radius:9px;font-size:11px;font-weight:600}
+.bdg-ok{background:var(--gl);color:var(--gd)}.bdg-now{background:#FFF3CD;color:#8B5A00}.bdg-lock{background:#F0F0F0;color:var(--txt2)}
+
+/* VOICE MODAL */
+#voice-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center;padding:20px}
+#voice-modal.show{display:flex}
+.vm-box{background:#fff;border-radius:20px;padding:22px;max-width:380px;width:100%;max-height:90vh;overflow-y:auto}
+.vm-title{font-size:18px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.vm-sub{font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.5}
+.vm-section{background:var(--gl);border:1px solid #E8A0A2;border-radius:12px;padding:12px;margin-bottom:10px}
+.vm-section.warn{background:#FFF8EC;border-color:#F5C842}
+.vm-section.err{background:var(--ol);border-color:var(--or)}
+.vm-t{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:7px}
+.vm-section.warn .vm-t{color:#8B5A00}.vm-section.err .vm-t{color:var(--or)}
+.vm-step{font-size:13px;color:var(--txt);line-height:1.6;padding:2px 0}
+.vm-step b{color:var(--gd)}
+.vm-section.warn .vm-step b{color:#8B5A00}
+.vm-ok-btn{width:100%;padding:14px;background:var(--g);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px}
+.vm-skip{display:block;text-align:center;font-size:12px;color:var(--txt2);margin-top:9px;cursor:pointer;text-decoration:underline}
+
+.scr-title{font-size:18px;font-weight:700;color:var(--txt);margin-bottom:3px}
+.scr-sub{font-size:13px;color:var(--txt2);margin-bottom:11px}
+
+/* LOADING INDICATOR */
+#load-bar{position:fixed;top:58px;left:0;right:0;z-index:998;background:#FFF8EC;border-bottom:2px solid #F5C842;padding:6px 14px;display:flex;align-items:center;gap:10px;transition:all .4s}
+#load-bar.ready{background:#E1F5EE;border-bottom-color:#1D9E75}
+#load-bar.hidden{opacity:0;pointer-events:none;height:0;padding:0;border:none}
+.load-lamp{width:14px;height:14px;border-radius:50%;flex-shrink:0;transition:all .4s}
+.load-lamp.yellow{background:#F5C842;box-shadow:0 0 8px #F5C842}
+.load-lamp.green{background:#1D9E75;box-shadow:0 0 8px #1D9E75}
+.load-lamp.gray{background:#CCC}
+.load-text{font-size:12px;font-weight:600;color:#8B5A00;transition:color .4s}
+#load-bar.ready .load-text{color:#085041}
+.load-spinner{width:14px;height:14px;border:2px solid #F5C842;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+#load-bar.ready .load-spinner{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Push main content down when bar visible */
+#main{top:94px}
+#main.no-bar{top:58px}
+</style>
+<script>
+setTimeout(function(){
+  var bar=document.getElementById('load-bar');
+  var lamp=document.getElementById('load-lamp');
+  var txt=document.getElementById('load-text');
+  var nav=document.getElementById('bottomnav');
+  var spl=document.querySelector('.spl-btn');
+  var spin=document.getElementById('load-spinner');
+  if(bar){bar.style.background='#E1F5EE';bar.style.borderBottomColor='#1D9E75';}
+  if(lamp){lamp.style.background='#1D9E75';lamp.style.boxShadow='0 0 8px #1D9E75';}
+  if(spin){spin.style.display='none';}
+  if(txt){txt.style.color='#085041';txt.textContent='✅ Готово! Нажмите любую кнопку';}
+  if(nav){nav.style.opacity='1';nav.style.pointerEvents='auto';}
+  if(spl){spl.style.opacity='1';spl.style.pointerEvents='auto';}
+  setTimeout(function(){
+    if(bar)bar.style.display='none';
+    var m=document.getElementById('main');
+    if(m){m.style.top='58px';}
+  },2000);
+},1500);
+</script>
+<script>
+var goHome=function(){if(window._goHome)window._goHome();};
+var goTab=function(n){if(window._goTab)window._goTab(n);};
+var goExam=function(){if(window._goExam)window._goExam();};
+var goProgress=function(){if(window._goProgress)window._goProgress();};
+</script>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div id="tb-flag">&#x1F1F1;&#x1F1FA;</div>
+  <div id="tb-info">
+    <div id="tb-name">Lëtzebuergesch Snell!</div>
+    <div id="tb-sub">LUXEMBURGSKIJ · 77 UROKOV</div>
+  </div>
+  <div id="tb-tm">
+    <div id="tb-tm-t">OPAT 25! &reg;</div>
+    <div id="tb-tm-s">YAZYKI DLA ZHIZNI</div>
+  </div>
+</div>
+
+<!-- LOADING INDICATOR -->
+<div id="load-bar">
+  <div class="load-spinner" id="load-spinner"></div>
+  <div class="load-lamp yellow" id="load-lamp"></div>
+  <div class="load-text" id="load-text">&#x23F3; Загрузка… Кнопки скоро станут активны</div>
+</div>
+
+<div id="main">
+
+<!-- SPLASH -->
+<div id="scr-splash" class="scr on">
+  <div class="spl-card">
+    <div class="spl-flag">&#x1F1F1;&#x1F1FA;</div>
+    <div class="spl-name">Lëtzebuergesch</div>
+    <div class="spl-sub">SNELL!</div>
+    <div class="spl-tm">
+      <div class="spl-tm-t">OPAT 25! &reg;</div>
+      <div class="spl-tm-s">YAZYKI DLA ZHIZNI</div>
+    </div>
+  </div>
+  <div class="spl-person">
+    <div class="spl-person-t">&#x1F469;&#x200D;&#x1F3EB; Ваша команда:</div>
+    <div class="spl-chars">
+      <div class="spl-char">
+        <div class="spl-ava" style="background:linear-gradient(135deg,#C4282C,#8B1A1E)">L</div>
+        <div class="spl-char-n">Léon</div>
+        <div class="spl-char-r">носитель</div>
+      </div>
+      <div class="spl-char">
+        <div class="spl-ava" style="background:linear-gradient(135deg,#D85A30,#993C1D)">A</div>
+        <div class="spl-char-n">Andrey</div>
+        <div class="spl-char-r">ученик A1</div>
+      </div>
+      <div class="spl-char">
+        <div class="spl-ava" style="background:linear-gradient(135deg,#7F77DD,#534AB7)">J</div>
+        <div class="spl-char-n">John</div>
+        <div class="spl-char-r">уровень A2</div>
+      </div>
+    </div>
+  </div>
+  <div class="spl-hobbies">
+    <div class="spl-hobbies-t">&#x1F3CE;&#xFE0F;&#x265F;&#xFE0F; Персонализация для Andrey:</div>
+    <div class="spl-hobby">&#x1F3CE;&#xFE0F; Formula 1 — специальные диалоги про гонки</div>
+    <div class="spl-hobby">&#x265F;&#xFE0F; Шахматы — клуб, турниры, термины</div>
+  </div>
+  <button class="spl-btn" onclick="window.goHome&&window.goHome()">Начать обучение &rarr;</button>
+</div>
+
+<!-- HOME -->
+<div id="scr-home" class="scr">
+  <div class="scr-title">&#x1F1F1;&#x1F1FA; Lëtzebuergesch Snell!</div>
+  <div class="scr-sub">77 уроков &middot; A1 &rarr; B1 &middot; Sproochentest</div>
+  <div class="home-hdr">
+    <div class="home-hdr-t">&#x1F468;&#x200D;&#x1F3EB; Léon говорит:</div>
+    <div class="home-hdr-d">&#xAB;Moien, Andrey! Wëllt dir Lëtzebuergesch léieren?&#xBB;<br>Доброе утро! Хотите учить люксембургский?</div>
+  </div>
+  <!-- Exam quick access -->
+  <div style="display:flex;gap:9px;margin-bottom:13px">
+    <button onclick="window.goExam&&window.goExam()" style="flex:1;padding:11px;background:var(--bll);border:1.5px solid #85B7EB;border-radius:var(--r);cursor:pointer;text-align:left">
+      <div style="font-size:13px;font-weight:700;color:#0C447C">&#x1F4DD; Модельный экзамен</div>
+      <div style="font-size:11px;color:#185FA5;margin-top:2px">Sproochentest — в любое время</div>
+    </button>
+    <div style="background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:11px;text-align:center;min-width:80px">
+      <div style="font-size:11px;color:var(--txt2)">Сдано</div>
+      <div id="exam-passed-mini" style="font-size:20px;font-weight:700;color:var(--g)">0</div>
+      <div style="font-size:11px;color:var(--txt2)">завалено</div>
+      <div id="exam-failed-mini" style="font-size:20px;font-weight:700;color:var(--or)">0</div>
+    </div>
+  </div>
+  <div id="lesson-grid"></div>
+</div>
+
+<!-- LESSON DIALOG -->
+<div id="scr-lesson" class="scr"><div id="lesson-content"></div></div>
+
+<!-- WORDS -->
+<div id="scr-words" class="scr">
+  <div class="scr-title" id="words-title">Слова урока</div>
+  <div class="scr-sub">Нажмите на слово — Léon произнесёт</div>
+  <div class="tip"><span>&#x1F50A;</span><span>Слушайте и повторяйте вслух!</span></div>
+  <div id="words-grid" class="wgrid"></div>
+</div>
+
+<!-- EXERCISES -->
+<div id="scr-exercise" class="scr">
+  <div class="scr-title">Задания</div>
+  <div class="scr-sub">Лёгкие вопросы — вы справитесь!</div>
+  <div id="ex-content"></div>
+</div>
+
+<!-- EXAM -->
+<div id="scr-exam" class="scr">
+  <div id="exam-content"></div>
+</div>
+
+<!-- PROGRESS -->
+<div id="scr-progress" class="scr">
+  <div class="scr-title">Мой прогресс</div>
+  <div class="scr-sub">Andrey, вы молодец! &#x1F31F;</div>
+  <div class="stat3">
+    <div class="stat"><div class="statn" id="p-l">0</div><div class="statl">уроков</div></div>
+    <div class="stat"><div class="statn" style="color:var(--pu)" id="p-w">0</div><div class="statl">слов</div></div>
+    <div class="stat"><div class="statn" style="font-size:18px">&#x1F525; 1</div><div class="statl">дней</div></div>
+  </div>
+  <!-- Exam stats in progress -->
+  <div class="pcard">
+    <div class="pcard-t">&#x1F4DD; Результаты экзаменов</div>
+    <div style="display:flex;gap:10px;padding:8px 0">
+      <div style="flex:1;text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--g)" id="p-exam-pass">0</div>
+        <div style="font-size:12px;color:var(--txt2)">Сдано &#x2705;</div>
+      </div>
+      <div style="flex:1;text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--or)" id="p-exam-fail">0</div>
+        <div style="font-size:12px;color:var(--txt2)">Завалено &#x274C;</div>
+      </div>
+      <div style="flex:1;text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--bl)" id="p-exam-pct">—</div>
+        <div style="font-size:12px;color:var(--txt2)">Успех</div>
+      </div>
+    </div>
+    <button onclick="window.goExam&&window.goExam()" style="width:100%;padding:11px;background:var(--bll);border:1.5px solid #85B7EB;border-radius:var(--r);font-size:14px;font-weight:700;color:#0C447C;cursor:pointer">
+      &#x1F4DD; Пройти экзамен ещё раз
+    </button>
+  </div>
+  <div class="pcard">
+    <div class="pcard-t">&#x1F1F1;&#x1F1FA; Lëtzebuergesch Snell — 77 уроков</div>
+    <div id="prog-list"></div>
+  </div>
+  <div class="pcard">
+    <div class="pcard-t">&#x1F469;&#x200D;&#x1F3EB; Ваша команда</div>
+    <div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bdr)">
+      <div class="ava L" style="width:38px;height:38px;font-size:14px">L</div>
+      <div><div style="font-weight:700;font-size:14px">Léon</div><div style="font-size:12px;color:var(--txt2)">Учитель &middot; Носитель языка</div></div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;padding:8px 0">
+      <div class="ava J" style="width:38px;height:38px;font-size:14px">J</div>
+      <div><div style="font-weight:700;font-size:14px">John</div><div style="font-size:12px;color:var(--txt2)">Пример A2 &middot; Результат через 6 месяцев</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- BOTTOM NAV -->
+<div id="bottomnav">
+  <button class="nvi" id="nb-home" onclick="window.goHome&&window.goHome()"><span class="nvi-i">&#x1F3E0;</span><span class="nvi-l">Уроки</span></button>
+  <button class="nvi" id="nb-lesson" onclick="window.goTab&&window.goTab('lesson')"><span class="nvi-i">&#x1F4AC;</span><span class="nvi-l">Диалог</span></button>
+  <button class="nvi" id="nb-words" onclick="window.goTab&&window.goTab('words')"><span class="nvi-i">&#x1F4D6;</span><span class="nvi-l">Слова</span></button>
+  <button class="nvi" id="nb-exercise" onclick="window.goTab&&window.goTab('exercise')"><span class="nvi-i">&#x270F;&#xFE0F;</span><span class="nvi-l">Задание</span></button>
+  <button class="nvi" id="nb-exam" onclick="window.goExam&&window.goExam()"><span class="nvi-i">&#x1F4DD;</span><span class="nvi-l">Экзамен</span></button>
+  <button class="nvi" id="nb-progress" onclick="window.goProgress&&window.goProgress()"><span class="nvi-i">&#x1F4CA;</span><span class="nvi-l">Прогресс</span></button>
+</div>
+
+<!-- VOICE MODAL -->
+<div id="voice-modal">
+  <div class="vm-box">
+    <div class="vm-title">&#x1F50A; Настройка голоса</div>
+    <div class="vm-sub">Для люксембургского используется немецкий голос (de-DE) — ближайший доступный по звучанию.</div>
+    <div class="vm-section" id="vm-ok" style="display:none">
+      <div class="vm-t">&#x2705; Немецкий голос найден!</div>
+      <div class="vm-step">Голос: <b id="vm-voice-name">—</b></div>
+      <div class="vm-step">Произношение будет приближено к люксембургскому.</div>
+    </div>
+    <div class="vm-section err" id="vm-err" style="display:none">
+      <div class="vm-t">&#x26A0;&#xFE0F; Немецкий голос не найден</div>
+      <div class="vm-step">Установите немецкий язык (Deutsch) в настройках синтеза речи.</div>
+    </div>
+    <div class="vm-section warn" id="vm-android" style="display:none">
+      <div class="vm-t">&#x1F4F1; Android</div>
+      <div class="vm-step"><b>1.</b> Настройки → Язык и ввод → Синтез речи</div>
+      <div class="vm-step"><b>2.</b> Google TTS → Язык → добавить <b>Deutsch</b></div>
+    </div>
+    <div class="vm-section warn" id="vm-ios" style="display:none">
+      <div class="vm-t">&#x1F34E; iPhone/iPad</div>
+      <div class="vm-step"><b>1.</b> Настройки → Универсальный доступ → Голоса</div>
+      <div class="vm-step"><b>2.</b> Добавьте голос <b>Deutsch → Anna</b></div>
+    </div>
+    <div class="vm-section warn" id="vm-win" style="display:none">
+      <div class="vm-t">&#x1F4BB; Windows</div>
+      <div class="vm-step"><b>1.</b> Параметры → Время и язык → Добавить язык <b>Deutsch</b></div>
+      <div class="vm-step"><b>2.</b> Отметьте «Синтез речи», перезапустите Chrome</div>
+    </div>
+    <button class="vm-ok-btn" onclick="closeVoiceModal()">Понятно, начать! &rarr;</button>
+    <span class="vm-skip" onclick="closeVoiceModal()">Пропустить</span>
+  </div>
+</div>
+
+<script>
+
+var L = [
+{id:1,title:"Alfabet a kleng",icon:"🔤",level:"A1",ru_title:"Алфавит и звуки",type:"normal",
+ words:[
+  {cz:"Moien",ru:"Доброе утро / Привет",ph:"[Мо́йен]",ic:"☀️"},
+  {cz:"Gudde Moien",ru:"Доброе утро (формально)",ph:"[Гудэ Мо́йен]",ic:"🌅"},
+  {cz:"Äddi",ru:"Пока / До свидания",ph:"[Э́дди]",ic:"👋"},
+  {cz:"Jo / Nee",ru:"Да / Нет",ph:"[Йо / Нэй]",ic:"✅❌"},
+  {cz:"Merci",ru:"Спасибо (от фр.)",ph:"[Мэрси́]",ic:"🙏"},
+  {cz:"Wann ech gelift",ru:"Пожалуйста",ph:"[Ван эх гэли́фт]",ic:"😊"},
+  {cz:"Entschëllegt",ru:"Извините",ph:"[Энтшу́лэгт]",ic:"🙇"},
+  {cz:"w = v, j = й",ru:"Особые звуки lb",ph:"[в, й]",ic:"🔊"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Moien, Andrey! Wéi geet et?",ph:"[Мо́йен, Андрэй! Вэй гэт эт?]",r:"Доброе утро, Андрей! Как дела?"},
+  {w:"A",n:"Andrey",t:"Moien, Léon! Et geet mir gutt, merci!",ph:"[Мо́йен, Леон! Эт гэт мир гут, мэрси!]",r:"Доброе утро, Léon! У меня всё хорошо, спасибо!"},
+  {w:"L",n:"Léon",t:"Wëllt dir Lëtzebuergesch léieren?",ph:"[Вэлт дир Лэцэбуэргэш лэ́йрэн?]",r:"Вы хотите учить люксембургский?"},
+  {w:"A",n:"Andrey",t:"Jo, ech wëll Lëtzebuergesch léieren!",ph:"[Йо, эх вэл Лэцэбуэргэш лэ́йрэн!]",r:"Да, я хочу учить люксембургский!"},
+  {w:"L",n:"Léon",t:"Super! Dann fange mer un.",ph:"[Зупэр! Дан фангэ мэр ун]",r:"Отлично! Тогда начинаем."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"Wéi schreift een op Lëtzebuergesch?",ph:"",r:"Как пишут по-люксембургски?"},
+  {w:"J",n:"John",t:"D'Alphabet ass ähnlech wéi Däitsch, mä mir hunn den ë a Lëtzebuergesch. Et ass e bëssen anescht!",ph:"",r:"Алфавит похож на немецкий, но у нас есть ë в люксембургском. Немного по-другому!"}
+ ],
+ ex:[
+  {q:"Как сказать «Привет» по-люксембургски?",o:["Hallo","Moien","Bonjour","Guten Morgen"],c:1,ok:"Верно! Moien — главное люксембургское приветствие",no:"Нет. Привет = Moien [Мо́йен]",exp:"Moien используется весь день — утром, днём и вечером. Это самое важное слово!"},
+  {q:"Как сказать «Спасибо» по-люксембургски?",o:["Danke","Merci","Gracias","Thank you"],c:1,ok:"Правильно! Merci — от французского. Люксембургский берёт слова из 3 языков!",no:"Нет. Спасибо = Merci (как по-французски!)",exp:"В люксембургском много французских слов: merci, bonjour, voilà. Это делает его уникальным!"}
+ ]
+},
+{id:2,title:"Virstellung — Kennenléiere",icon:"👋",level:"A1",ru_title:"Знакомство",type:"normal",
+ words:[
+  {cz:"Wéi heeschs du?",ru:"Как тебя зовут? (неформ.)",ph:"[Вэй хэйшт ду?]",ic:"❓"},
+  {cz:"Wéi heecht dir?",ru:"Как вас зовут? (формально)",ph:"[Вэй хэйхт дир?]",ic:"❓"},
+  {cz:"Ech heeschen...",ru:"Меня зовут...",ph:"[Эх хэйшн]",ic:"🙋"},
+  {cz:"Wou kënns du hier?",ru:"Откуда ты?",ph:"[Ву кэнс ду хир?]",ic:"🗺️"},
+  {cz:"Ech kommen aus...",ru:"Я из...",ph:"[Эх комэн аус]",ic:"🌍"},
+  {cz:"Wéi al bass du?",ru:"Сколько тебе лет?",ph:"[Вэй ал бас ду?]",ic:"🎂"},
+  {cz:"Ech si... Joer al.",ru:"Мне ... лет.",ph:"[Эх си ... йор ал]",ic:"🔢"},
+  {cz:"Schéi Bekanntschaft!",ru:"Приятно познакомиться!",ph:"[Шэй Бэка́нтшафт!]",ic:"🤝"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Wéi heeschs du?",ph:"[Вэй хэйшт ду?]",r:"Как тебя зовут?"},
+  {w:"A",n:"Andrey",t:"Ech heeschen Andrey. A wéi heeschs du?",ph:"[Эх хэйшн Андрэй. А вэй хэйшт ду?]",r:"Меня зовут Андрей. А как тебя зовут?"},
+  {w:"L",n:"Léon",t:"Ech heeschen Léon. Wou kënns du hier?",ph:"[Эх хэйшн Леон. Ву кэнс ду хир?]",r:"Меня зовут Léon. Откуда ты?"},
+  {w:"A",n:"Andrey",t:"Ech kommen aus Russland. A du?",ph:"[Эх комэн аус Русланд. А ду?]",r:"Я из России. А ты?"},
+  {w:"L",n:"Léon",t:"Ech kommen aus Lëtzebuerg. Wéi al bass du?",ph:"[Ву кэнс ду хир?]",r:"Я из Люксембурга. Сколько тебе лет?"},
+  {w:"A",n:"Andrey",t:"Ech si fofzeg Joer al. A du?",ph:"[Эх си фо́фцэх йор ал]",r:"Мне пятьдесят лет. А тебе?"},
+  {w:"L",n:"Léon",t:"Ech si véierzeg Joer al. Schéi Bekanntschaft!",ph:"[Эх си фэ́рцэх йор ал. Шэй Бэка́нтшафт!]",r:"Мне сорок лет. Приятно познакомиться!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéi laang léiers du Lëtzebuergesch?",ph:"",r:"Джон, как давно ты учишь люксембургский?"},
+  {w:"J",n:"John",t:"Ech léieren Lëtzebuergesch zanter sechs Méint. Et ass net einfach, mä ech maachen Fortschrëtter!",ph:"",r:"Я учу люксембургский шесть месяцев. Это не легко, но я делаю успехи!"}
+ ],
+ ex:[
+  {q:"Как сказать «Меня зовут...» по-люксембургски?",o:["Ech kommen aus...","Ech heeschen...","Ech si... Joer al","Wéi heeschs du?"],c:1,ok:"Верно! Ech heeschen... = Меня зовут...",no:"Нет. Меня зовут = Ech heeschen...",exp:"heeschen — глагол «называться». Ech heeschen Andrey = Меня зовут Андрей."},
+  {q:"Андрею 50 лет. Как он это скажет?",o:["Ech si véierzeg Joer al","Ech si fofzeg Joer al","Ech si drësseg Joer al","Ech si sechzeg Joer al"],c:1,ok:"Правильно! fofzeg = пятьдесят. Ech si fofzeg Joer al.",no:"Нет. 50 = fofzeg. Ech si fofzeg Joer al.",exp:"Числа: drësseg=30, véierzeg=40, fofzeg=50, sechzeg=60, siwebzeg=70."}
+ ]
+},
+{id:3,title:"Zuelen 1-20",icon:"🔢",level:"A1",ru_title:"Цифры 1–20",type:"normal",
+ words:[
+  {cz:"een / eng",ru:"один / одна",ph:"[эн / энг]",ic:"1️⃣"},
+  {cz:"zwee / zwou",ru:"два / две",ph:"[цвэй / цву]",ic:"2️⃣"},
+  {cz:"dräi / véier",ru:"три / четыре",ph:"[дрэй / фэйр]",ic:"3️⃣"},
+  {cz:"fënnef / sechs",ru:"пять / шесть",ph:"[фэнэф / зэхс]",ic:"5️⃣"},
+  {cz:"siwen / aacht",ru:"семь / восемь",ph:"[зивэн / ахт]",ic:"7️⃣"},
+  {cz:"néng / zéng",ru:"девять / десять",ph:"[нэнг / цэнг]",ic:"9️⃣"},
+  {cz:"eelef / zwielef",ru:"одиннадцать / двенадцать",ph:"[эйлэф / цвиэлэф]",ic:"🔢"},
+  {cz:"zwanzeg",ru:"двадцать",ph:"[цва́нцэх]",ic:"🔢"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Wéivill Lëtzebuerger wunnen zu Lëtzebuerg?",ph:"[Вэйвил Лэцэбуэргэр вунэн цу Лэцэбуэрг?]",r:"Сколько люксембуржцев живут в Люксембурге?"},
+  {w:"A",n:"Andrey",t:"Ech weess net genau... Eng hallef Millioun?",ph:"[Эх вэс нэт гэна́у... Энг халэф Миллю́н?]",r:"Я не знаю точно... Полмиллиона?"},
+  {w:"L",n:"Léon",t:"Bal! Et sinn ongeféier sechshonnert dausend Awunner.",ph:"[Баль! Эт зин ун-гэ-фэйр зэхс-хонэрт да́узэнт]",r:"Почти! Около шестисот тысяч жителей."},
+  {w:"A",n:"Andrey",t:"A wéivill Sproochen schwätze si?",ph:"[А вэйвил Шпрохэн швэцэ зи?]",r:"И на скольких языках они говорят?"},
+  {w:"L",n:"Léon",t:"Dräi! Lëtzebuergesch, Däitsch a Franséisch.",ph:"[Дрэй! Лэцэбуэргэш, Дэйтш а Фра́нзэйш]",r:"Три! Люксембургский, немецкий и французский."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéivill Leit wunnen zu Lëtzebuerg?",ph:"",r:"Джон, сколько людей живёт в Люксембурге?"},
+  {w:"J",n:"John",t:"Ech mengen et sinn ongeféier sechshonnert dausend. Bal d'Hallschent si Auslänner! Et ass e richtege Melting Pot.",ph:"",r:"Я думаю около шестисот тысяч. Почти половина — иностранцы! Настоящий плавильный котёл."}
+ ],
+ ex:[
+  {q:"Как по-люксембургски «три»?",o:["zwee","dräi","véier","fënnef"],c:1,ok:"Верно! dräi = три",no:"Нет. Три = dräi [дрэй]",exp:"dräi звучит похоже на немецкое drei. Люксембургский и немецкий — языки-братья!"},
+  {q:"На скольких языках говорят в Люксембурге официально?",o:["двух","трёх","четырёх","одном"],c:1,ok:"Правильно! Lëtzebuergesch + Däitsch + Franséisch = 3 языка",no:"Нет. В Люксембурге 3 официальных языка: lb, de, fr",exp:"Это делает Люксембург уникальным! Все три языка обязательны для госслужащих."}
+ ]
+},
+{id:4,title:"Am Café",icon:"☕",level:"A1",ru_title:"В кафе",type:"normal",
+ words:[
+  {cz:"e Kaffi",ru:"кофе",ph:"[э Кафи]",ic:"☕"},
+  {cz:"e Téi",ru:"чай",ph:"[э Тэй]",ic:"🍵"},
+  {cz:"e Waasser",ru:"вода",ph:"[э Ва́сэр]",ic:"💧"},
+  {cz:"e Béier",ru:"пиво",ph:"[э Бэйр]",ic:"🍺"},
+  {cz:"Ech hätt gäre...",ru:"Я бы хотел...",ph:"[Эх хэт гэ́рэ]",ic:"🙋"},
+  {cz:"Wat kost dat?",ru:"Сколько стоит?",ph:"[Ват кост дат?]",ic:"💰"},
+  {cz:"D'Rechnung, wannechgelift",ru:"Счёт, пожалуйста",ph:"[Дэ Рэхнунг, ван-эх-гэ-лифт]",ic:"🧾"},
+  {cz:"mat Mëllech",ru:"с молоком",ph:"[мат Мэ́лэх]",ic:"🥛"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Gudde Moien! Wat hätt dir gäre?",ph:"[Гудэ Мо́йен! Ват хэт дир гэ́рэ?]",r:"Доброе утро! Что бы вы хотели?"},
+  {w:"A",n:"Andrey",t:"Moien! Ech hätt gäre e Kaffi, wann ech gelift.",ph:"[Мо́йен! Эх хэт гэ́рэ э Кафи, ван-эх-гэ-лифт]",r:"Доброе утро! Я бы хотел кофе, пожалуйста."},
+  {w:"L",n:"Léon",t:"Mat Mëllech oder ouni?",ph:"[Мат Мэ́лэх одэр о́уни?]",r:"С молоком или без?"},
+  {w:"A",n:"Andrey",t:"Mat Mëllech, wann ech gelift. Gestern hat Verstappen gewonnen — super Course!",ph:"[Мат Мэ́лэх, ван-эх-гэ-лифт]",r:"С молоком, пожалуйста. Вчера Ферстаппен победил — отличная гонка!"},
+  {w:"L",n:"Léon",t:"Jo! Ech hunn d'Course och gekuckt. Wat eng Spannung! Dat kost véier Euro.",ph:"[Йо! Эх хун дэ Курс ох гэ-ку́хт. Ват энг Шпа́нунг! Дат кост фэйр Ойро]",r:"Да! Я тоже смотрел гонку. Какое напряжение! Это стоит четыре евро."},
+  {w:"A",n:"Andrey",t:"Hei sinn fënnef Euro. Merci!",ph:"[Хэй зин фэнэф Ойро. Мэрси!]",r:"Вот пять евро. Спасибо!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, gees du oft an d'Café?",ph:"",r:"Джон, ты часто ходишь в кафе?"},
+  {w:"J",n:"John",t:"Jo, all Owend no der Aarbecht! Ech drénken ëmmer e Kaffi a liesen d'Zeitung. Et ass meng Zäit fir mech selwer.",ph:"",r:"Да, каждый вечер после работы! Всегда пью кофе и читаю газету. Это моё время для себя."}
+ ],
+ ex:[
+  {q:"Как заказать кофе по-люксембургски?",o:["Ech wëll e Kaffi","Ech hätt gäre e Kaffi","Gitt mir e Kaffi","E Kaffi, jo"],c:1,ok:"Верно! Ech hätt gäre... = Я бы хотел... (вежливая форма)",no:"Нет. Вежливо заказывают: Ech hätt gäre e Kaffi",exp:"hätt gäre — это сослагательное наклонение, как английское 'would like'. Очень вежливо!"},
+  {q:"Как спросить «Сколько стоит?»",o:["Wéi vill?","Wat kost dat?","Wéi deier?","Wéivill Euro?"],c:1,ok:"Правильно! Wat kost dat? = Сколько стоит это?",no:"Нет. Сколько стоит? = Wat kost dat?",exp:"kost = стоит (от немецкого kostet). dat = это."}
+ ]
+},
+{id:5,title:"Am Supermarché",icon:"🛒",level:"A1",ru_title:"В магазине",type:"normal",
+ words:[
+  {cz:"Wou ass...?",ru:"Где находится...?",ph:"[Ву ас...?]",ic:"❓"},
+  {cz:"Ech sichen...",ru:"Я ищу...",ph:"[Эх зи́хэн]",ic:"🔍"},
+  {cz:"Hutt dir...?",ru:"У вас есть...?",ph:"[Хут дир?]",ic:"🤔"},
+  {cz:"d'Bréit",ru:"хлеб",ph:"[дэ Брэйт]",ic:"🍞"},
+  {cz:"d'Mëllech",ru:"молоко",ph:"[дэ Мэ́лэх]",ic:"🥛"},
+  {cz:"d'Uebst",ru:"фрукты",ph:"[дэ Уэбст]",ic:"🍎"},
+  {cz:"bëlleger",ru:"подешевле",ph:"[бэлэгэр]",ic:"💸"},
+  {cz:"un der Keess bezuelen",ru:"заплатить на кассе",ph:"[ун дэр Кэс бэцу́элэн]",ic:"💳"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Gudde Moien! Kann ech Iech hëllefen?",ph:"[Кан эх Эйх хэ́лэфэн?]",r:"Доброе утро! Могу я вам помочь?"},
+  {w:"A",n:"Andrey",t:"Jo, merci! Wou ass d'Bréit, wann ech gelift?",ph:"[Йо, мэрси! Ву ас дэ Брэйт, ван-эх-гэ-лифт?]",r:"Да, спасибо! Где хлеб, пожалуйста?"},
+  {w:"L",n:"Léon",t:"D'Bréit ass do, an der zweeter Rëtsch.",ph:"[Дэ Брэйт ас до, ан дэр цвэй-тэр Рэцш]",r:"Хлеб там, во второй полке."},
+  {w:"A",n:"Andrey",t:"Merci. Hutt dir och frësch Mëllech?",ph:"[Мэрси. Хут дир ох фрэш Мэ́лэх?]",r:"Спасибо. У вас есть свежее молоко?"},
+  {w:"L",n:"Léon",t:"Jo, natierlech! Am Killschrank, do hannendrun.",ph:"[Йо, нату́рлэх! Ам Килшранк, до ха́нэн-друн]",r:"Да, конечно! В холодильнике, там сзади."},
+  {w:"A",n:"Andrey",t:"Super, merci! Wou bezuelen ech?",ph:"[Зупэр, мэрси! Ву бэцу́элэн эх?]",r:"Отлично, спасибо! Где платить?"},
+  {w:"L",n:"Léon",t:"Un der Keess, do riets.",ph:"[Ун дэр Кэс, до рэйтс]",r:"На кассе, там справа."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wou kafs du deng Liewensmëttel?",ph:"",r:"Джон, где ты покупаешь продукты?"},
+  {w:"J",n:"John",t:"Meeschtens am Cactus oder am Delhaize. Zu Lëtzebuerg si vill Supermarchéen. Ech probéieren ëmmer lokal Produiten ze kafen.",ph:"",r:"Чаще всего в Cactus или Delhaize. В Люксембурге много супермаркетов. Я всегда стараюсь покупать местные продукты."}
+ ],
+ ex:[
+  {q:"Как спросить «Где хлеб?»",o:["Wou ass d'Mëllech?","Wou ass d'Bréit?","Ech sichen d'Bréit","Hutt dir Bréit?"],c:1,ok:"Верно! Wou ass d'Bréit? = Где хлеб?",no:"Нет. Где хлеб? = Wou ass d'Bréit?",exp:"wou = где, ass = есть/находится. d' = определённый артикль (как французское la/le)."},
+  {q:"Как вежливо попросить помощь в магазине?",o:["Hëllefen!","Kann ech Iech hëllefen?","Ech wëll hëllefen","Wou hëlleft dir?"],c:1,ok:"Правильно! Kann ech Iech hëllefen? = Могу я вам помочь?",no:"Нет. Правильно: Kann ech Iech hëllefen?",exp:"Эту фразу говорит продавец. Если вы сами просите помощи: Kënnt dir mir hëllefen?"}
+ ]
+},
+{id:6,title:"Transport zu Lëtzebuerg",icon:"🚌",level:"A1",ru_title:"Транспорт в Люксембурге",type:"normal",
+ words:[
+  {cz:"den Bus",ru:"автобус",ph:"[дэн Бус]",ic:"🚌"},
+  {cz:"den Zuch",ru:"поезд",ph:"[дэн Цух]",ic:"🚂"},
+  {cz:"den Tram",ru:"трамвай",ph:"[дэн Трам]",ic:"🚊"},
+  {cz:"Wou ass d'Busarrêt?",ru:"Где автобусная остановка?",ph:"[Ву ас дэ Бус-а-рэ?]",ic:"🚏"},
+  {cz:"lénks / riets / riets",ru:"налево / направо",ph:"[лэнкс / рэйтс]",ic:"↔️"},
+  {cz:"rëscht / direkt",ru:"прямо",ph:"[рэшт / дирэкт]",ic:"⬆️"},
+  {cz:"Wéini fiert de Bus?",ru:"Когда отходит автобус?",ph:"[Вэйни фирт дэ Бус?]",ic:"⏰"},
+  {cz:"De Public Transport ass gratis!",ru:"Транспорт бесплатный!",ph:"[Дэ Публик Транспорт ас гра́тис!]",ic:"🆓"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wosst du datt de Public Transport zu Lëtzebuerg gratis ass?",ph:"[Вост ду дат дэ Публик Транспорт цу Лэцэбуэрг гра́тис ас?]",r:"Андрей, ты знал, что общественный транспорт в Люксембурге бесплатный?"},
+  {w:"A",n:"Andrey",t:"Wierklech?! Dat ass fantastescht! Wéi kommen ech an d'Stad?",ph:"[Вирклэх?! Дат ас фанта́стэшт! Вэй комэн эх ан дэ Штат?]",r:"Правда?! Это фантастика! Как добраться до города?"},
+  {w:"L",n:"Léon",t:"Mat dem Bus. D'Busarrêt ass do lénks, no beim Supermarché.",ph:"[Мат дэм Бус. Дэ Бус-а-рэ ас до лэнкс]",r:"На автобусе. Остановка там слева, рядом с супермаркетом."},
+  {w:"A",n:"Andrey",t:"A muss ech bezuelen?",ph:"[А мус эх бэцу́элэн?]",r:"А мне нужно платить?"},
+  {w:"L",n:"Léon",t:"Neen, guer näischt! De Bus, den Zuch, den Tram — alles gratis!",ph:"[Нэн, гуэр нэшт! Дэ Бус, дэн Цух, дэн Трам — а́лэс гра́тис!]",r:"Нет, совсем ничего! Автобус, поезд, трамвай — всё бесплатно!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, benotzt du oft den ëffentlechen Transport?",ph:"",r:"Джон, ты часто пользуешься общественным транспортом?"},
+  {w:"J",n:"John",t:"Jo, all Dag! Zanter Lëtzebuerg gratis Transport agefouert huet, hunn ech mäi Auto doheem gelooss. Et ass vill bequemer an écologesch!",ph:"",r:"Да, каждый день! С тех пор как Люксембург сделал транспорт бесплатным, я оставляю машину дома. Намного удобнее и экологично!"}
+ ],
+ ex:[
+  {q:"Что уникального в транспорте Люксембурга?",o:["Самый быстрый в Европе","Полностью бесплатный","Только на электричестве","Работает 24 часа"],c:1,ok:"Верно! С 2020 года весь общественный транспорт в Люксембурге бесплатный!",no:"Нет. Люксембург — первая страна в мире с бесплатным транспортом!",exp:"С 1 марта 2020 года Люксембург стал первой страной в мире где весь общественный транспорт полностью бесплатный."},
+  {q:"Как спросить «Где автобусная остановка?»",o:["Wou ass de Bus?","Wou ass d'Busarrêt?","Wéini fiert de Bus?","Wou fiert de Bus hin?"],c:1,ok:"Правильно! Wou ass d'Busarrêt? = Где остановка?",no:"Нет. Остановка = d'Busarrêt [Бус-а-рэ] (от французского arrêt)",exp:"Много слов в люксембургском — французского происхождения: arrêt, café, merci, voilà..."}
+ ]
+},
+{id:7,title:"Zäit a Woch",icon:"📅",level:"A1",ru_title:"Время и дни недели",type:"normal",
+ words:[
+  {cz:"Méindeg / Dënschdeg",ru:"Понедельник / Вторник",ph:"[Мэйн-дэх / Дэнш-дэх]",ic:"📅"},
+  {cz:"Mëttwoch / Donneschdeg",ru:"Среда / Четверг",ph:"[Мэт-вох / Донэш-дэх]",ic:"📅"},
+  {cz:"Freideg / Samschdeg",ru:"Пятница / Суббота",ph:"[Фрэй-дэх / За́мш-дэх]",ic:"📅"},
+  {cz:"Sonndeg",ru:"Воскресенье",ph:"[Зон-дэх]",ic:"🙏"},
+  {cz:"Wéivill Auer ass et?",ru:"Который час?",ph:"[Вэй-вил А́уэр ас эт?]",ic:"🕐"},
+  {cz:"Et ass... Auer.",ru:"Сейчас ... часов.",ph:"[Эт ас ... А́уэр]",ic:"⏰"},
+  {cz:"moies / mëttes / owes",ru:"утром / в полдень / вечером",ph:"[мо́йэс / мэ́тэс / о́вэс]",ic:"🌅🌆"},
+  {cz:"haut / muer / gëschter",ru:"сегодня / завтра / вчера",ph:"[хаут / муэр / гэштэр]",ic:"📆"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wéivill Auer ass et?",ph:"[Вэй-вил А́уэр ас эт?]",r:"Андрей, который час?"},
+  {w:"A",n:"Andrey",t:"Et ass néng Auer moies.",ph:"[Эт ас нэнг А́уэр мо́йэс]",r:"Сейчас девять часов утра."},
+  {w:"L",n:"Léon",t:"A wat fir en Dag ass haut?",ph:"[А ват фир эн Дах ас хаут?]",r:"А какой сегодня день?"},
+  {w:"A",n:"Andrey",t:"Haut ass Méindeg. Muer ass Dënschdeg.",ph:"[Хаут ас Мэйн-дэх. Муэр ас Дэнш-дэх]",r:"Сегодня понедельник. Завтра вторник."},
+  {w:"L",n:"Léon",t:"Super! De Formulaire 1 Grand Prix ass Sonndeg. Wëlls du kucken?",ph:"[Зупэр! Дэ Грандпри ас Зон-дэх. Вэлс ду ку́хэн?]",r:"Отлично! Гран-при Формулы 1 в воскресенье. Хочешь смотреть?"},
+  {w:"A",n:"Andrey",t:"Natierlech! Ech kucken ëmmer all Grand Prix!",ph:"[Нату́рлэх! Эх ку́хэн э́мэр ал Грандпри!]",r:"Конечно! Я всегда смотрю каждый Гран-при!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéini hues du Fräizäit?",ph:"",r:"Джон, когда у тебя свободное время?"},
+  {w:"J",n:"John",t:"Normalerweis Samschdeg an Sonndeg. Ech spillen dann Tennis oder ginn mat der Famill spazéieren. Ëm Sonndeg kucken mir de Grand Prix!",ph:"",r:"Обычно суббота и воскресенье. Тогда играю в теннис или гуляю с семьей. По воскресеньям смотрим Гран-при!"}
+ ],
+ ex:[
+  {q:"Как по-люксембургски «воскресенье»?",o:["Samschdeg","Freideg","Sonndeg","Méindeg"],c:2,ok:"Верно! Sonndeg = воскресенье (от Sonn = солнце)",no:"Нет. Воскресенье = Sonndeg [Зон-дэх]",exp:"Sonndeg = день Солнца, Méindeg = день Луны. Как в немецком: Sonntag, Montag."},
+  {q:"Как спросить «Который час?»",o:["Wéini?","Wéivill Auer ass et?","Wou ass d'Auer?","Wat Auer?"],c:1,ok:"Правильно! Wéivill Auer ass et? = Который час?",no:"Нет. Который час? = Wéivill Auer ass et?",exp:"Auer = час/часы. Wéivill = сколько. Дословно: «Сколько часов есть?»"}
+ ]
+},
+{id:8,title:"F1: Am Bistro bei der Course",icon:"🏎️",level:"A1",ru_title:"F1: В баре — смотрим гонку",type:"f1",
+ words:[
+  {cz:"d'Course / de Grand Prix",ru:"гонка / Гран-при",ph:"[дэ Курс / дэ Грандпри]",ic:"🏎️"},
+  {cz:"de Fuerer / de Pilot",ru:"гонщик / пилот",ph:"[дэ Фу́рэр / дэ Пило́т]",ic:"🧑‍✈️"},
+  {cz:"gewannen / verlieren",ru:"победить / проиграть",ph:"[гэва́нэн / фэрли́рэн]",ic:"🏆"},
+  {cz:"de Pole Position",ru:"поул-позиция",ph:"[дэ Пол Позицьон]",ic:"1️⃣"},
+  {cz:"d'Pit Stop",ru:"пит-стоп",ph:"[дэ Пит Стоп]",ic:"🔧"},
+  {cz:"Fantastesch!",ru:"Фантастически!",ph:"[Фанта́стэш!]",ic:"🎉"},
+  {cz:"Kuck mol!",ru:"Смотри!",ph:"[Кух моль!]",ic:"👀"},
+  {cz:"Wat eng Spannung!",ru:"Какое напряжение!",ph:"[Ват энг Шпа́нунг!]",ic:"😮"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, kuck mol! De Grand Prix fänkt elo un!",ph:"[Андрэй, кух моль! Дэ Грандпри фэнкт эло ун!]",r:"Андрей, смотри! Гран-при сейчас начинается!"},
+  {w:"A",n:"Andrey",t:"Super! Wien huet d'Pole Position?",ph:"[Зупэр! Вин хует дэ Пол Позицьон?]",r:"Отлично! У кого поул-позиция?"},
+  {w:"L",n:"Léon",t:"Verstappen huet d'Pole. Hien ass de Favorit haut.",ph:"[Фэрштапэн хует дэ Пол. Хин ас дэ Фавори́т хаут]",r:"У Ферстаппена поул. Он сегодня фаворит."},
+  {w:"A",n:"Andrey",t:"Kuck! Hien mécht e Pit Stop! Wat eng Strategie!",ph:"[Кух! Хин мэхт э Пит Стоп! Ват энг Штратэги!]",r:"Смотри! Он делает пит-стоп! Какая стратегия!"},
+  {w:"L",n:"Léon",t:"Jo! An elo gewënnt hien! Fantastesch! Wat eng Course!",ph:"[Йо! Ан эло гэвэнт хин! Фанта́стэш! Ват энг Курс!]",r:"Да! И теперь он побеждает! Фантастически! Какая гонка!"},
+  {w:"A",n:"Andrey",t:"Ech léieren dës Wieder op Lëtzebuergesch — well ech si Forest Fan!",ph:"[Эх лэйрэн дэс Ви́дэр оп Лэцэбуэргэш]",r:"Я учу эти слова по-люксембургски — потому что я большой фанат!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, follews du d'Formel 1?",ph:"",r:"Джон, ты следишь за Формулой 1?"},
+  {w:"J",n:"John",t:"Natierlech! Ech kucken all Course. Den neie Circuit zu Las Vegas war spektakulär! Mäi Favorit ass Hamilton, mä Verstappen dominéiert ganz kloer.",ph:"",r:"Конечно! Смотрю каждую гонку. Новая трасса в Лас-Вегасе была потрясающей! Мой фаворит Хэмилтон, но Ферстаппен явно доминирует."}
+ ],
+ ex:[
+  {q:"Как сказать «Какое напряжение!» по-люксембургски?",o:["Fantastesch!","Wat eng Spannung!","Kuck mol!","Super Course!"],c:1,ok:"Правильно! Wat eng Spannung! = Какое напряжение!",no:"Нет. Напряжение = Spannung. Wat eng Spannung! = Какое напряжение!",exp:"Spannung — немецкое слово, используется в люксембургском. Вы уже знаете немецкий через люксембургский!"},
+  {q:"Андрей спрашивает у кого поул. Как это по-люксембургски?",o:["Wéi kost d'Pole?","Wien huet d'Pole Position?","Wou ass d'Pole?","Wéini ass d'Pole?"],c:1,ok:"Верно! Wien huet d'Pole Position? = У кого поул?",no:"Нет. Правильно: Wien huet d'Pole Position? (Wien = кто)",exp:"Wien = кто. huet = имеет (3 лицо). d' = артикль перед Pole Position."}
+ ]
+},
+{id:9,title:"Am Restaurant",icon:"🍽️",level:"A1",ru_title:"В ресторане",type:"normal",
+ words:[
+  {cz:"d'Kaart / de Menü",ru:"меню",ph:"[дэ Карт / дэ Мэню]",ic:"📋"},
+  {cz:"Ech hätt gäre bestellen",ru:"Я бы хотел заказать",ph:"[Эх хэт гэ́рэ бэ-штэ́лэн]",ic:"🍽️"},
+  {cz:"Wat recommandéiert dir?",ru:"Что вы рекомендуете?",ph:"[Ват рэкоман-дэ́йрт дир?]",ic:"🤔"},
+  {cz:"Judd mat Gaardebounen",ru:"Свинина с бобами (нац. блюдо)",ph:"[Йуд мат Гарэ-бу́нэн]",ic:"🥩"},
+  {cz:"Bouneschlupp",ru:"Зелёный суп (нац. блюдо)",ph:"[Бу́нэ-шлуп]",ic:"🍲"},
+  {cz:"Et huet gutt geschmaacht!",ru:"Было очень вкусно!",ph:"[Эт хует гут гэ-шмакт!]",ic:"😍"},
+  {cz:"D'Rechnung, wannechgelift",ru:"Счёт, пожалуйста",ph:"[Дэ Рэхнунг, ван-эх-гэ-лифт]",ic:"🧾"},
+  {cz:"Mir deelen d'Rechnung",ru:"Мы делим счёт",ph:"[Мир дэлэн дэ Рэхнунг]",ic:"💳"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Gudde Mëtteg! Hei ass d'Kaart.",ph:"[Гудэ Мэтэх! Хэй ас дэ Карт]",r:"Добрый день! Вот меню."},
+  {w:"A",n:"Andrey",t:"Merci! Wat recommandéiert dir? Ech probéieren gär lëtzebuergesch Iessen.",ph:"[Ват рэкоман-дэ́йрт дир? Эх про-бэ́йрэн гэр]",r:"Спасибо! Что вы рекомендуете? Я хотел бы попробовать люксембургскую кухню."},
+  {w:"L",n:"Léon",t:"Da sollt dir d'Judd mat Gaardebounen probéieren! Et ass eisert Nationalgericht.",ph:"[Дэ Йуд мат Гарэ-бу́нэн — ет ас эйзэрт Националгэрихт]",r:"Тогда вам стоит попробовать Judd mat Gaardebounen! Это наше национальное блюдо."},
+  {w:"A",n:"Andrey",t:"Fantastesch Iddi! Ech hätt gäre dat, wann ech gelift.",ph:"[Фанта́стэш Идди! Эх хэт гэ́рэ дат, ван-эх-гэ-лифт]",r:"Фантастическая идея! Я бы хотел это, пожалуйста."},
+  {w:"L",n:"Léon",t:"... Et huet gutt geschmaacht, net?",ph:"[Эт хует гут гэ-шмакт, нэт?]",r:"... Было вкусно, не правда ли?"},
+  {w:"A",n:"Andrey",t:"Ausgezeechent! Dat bescht Iessen dat ech je giess hunn! D'Rechnung, wann ech gelift.",ph:"[Аусгэ-цэйхнэт! Дат бэшт Эсэн дат эх йэ гис хун!]",r:"Превосходно! Лучшее блюдо что я когда-либо ел! Счёт, пожалуйста."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, hues du al lëtzebuergesch Gericher probéiert?",ph:"",r:"Джон, ты пробовал люксембургские блюда?"},
+  {w:"J",n:"John",t:"Jo, vill! Judd mat Gaardebounen ass mäi Liiblingsgericht. Och Bouneschlupp am Wanter ass wonnerschéin. Ech sinn total verléift an d'lëtzebuergesch Kichen!",ph:"",r:"Да, многие! Judd mat Gaardebounen — моё любимое блюдо. Также Bouneschlupp зимой прекрасна. Я полностью влюблён в люксембургскую кухню!"}
+ ],
+ ex:[
+  {q:"Что такое «Judd mat Gaardebounen»?",o:["Суп с овощами","Свинина с бобами — национальное блюдо","Рыба с картофелем","Десерт с кремом"],c:1,ok:"Верно! Judd mat Gaardebounen — копчёная свинина с бобами. Главное блюдо Люксембурга!",no:"Нет. Judd mat Gaardebounen = копчёная шейка свинины с бобами",exp:"Judd = шейка (копчёная), Gaardebounen = садовые бобы. Это символ люксембургской кухни!"},
+  {q:"Как сказать «Было очень вкусно!»",o:["Et war gutt!","Et huet gutt geschmaacht!","Ech hunn gutt giess","Super Iessen!"],c:1,ok:"Правильно! Et huet gutt geschmaacht! — вкусное выражение :)",no:"Нет. Было вкусно = Et huet gutt geschmaacht!",exp:"geschmaacht = вкусило/пахло (от schmecken). Дословно: «Это вкусно пахло/было на вкус»."}
+ ]
+},
+{id:10,title:"D'Famill",icon:"👪",level:"A1",ru_title:"Семья",type:"normal",
+ words:[
+  {cz:"d'Mamm / de Papp",ru:"мама / папа",ph:"[дэ Мам / дэ Пап]",ic:"👩👨"},
+  {cz:"de Brudder / d'Schwëster",ru:"брат / сестра",ph:"[дэ Брудэр / дэ Швэштэр]",ic:"👦👧"},
+  {cz:"d'Fra / de Mann",ru:"жена / муж",ph:"[дэ Фра / дэ Ман]",ic:"💑"},
+  {cz:"de Jong / d'Meederche",ru:"сын / дочь",ph:"[дэ Йонг / дэ Мэдэрхэн]",ic:"👦👧"},
+  {cz:"d'Groussmamm / de Groussbopp",ru:"бабушка / дедушка",ph:"[дэ Груссмам / дэ Груссбоп]",ic:"👵👴"},
+  {cz:"d'Famill",ru:"семья",ph:"[дэ Фамил]",ic:"👨‍👩‍👧‍👦"},
+  {cz:"Ech hunn...",ru:"У меня есть...",ph:"[Эх хун]",ic:"❤️"},
+  {cz:"Wéi grouss ass deng Famill?",ru:"Какая у тебя большая семья?",ph:"[Вэй грос ас дэнг Фамил?]",ic:"❓"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, hues du eng Famill hei zu Lëtzebuerg?",ph:"[Хуэс ду энг Фамил хэй цу Лэцэбуэрг?]",r:"Андрей, у тебя есть семья здесь в Люксембурге?"},
+  {w:"A",n:"Andrey",t:"Jo! Ech hunn eng Fra a zwee Kanner. Meng Fra heescht Natasha.",ph:"[Йо! Эх хун энг Фра а цвэй Канэр. Мэнг Фра хэйшт Наташа]",r:"Да! У меня есть жена и двое детей. Мою жену зовут Наташа."},
+  {w:"L",n:"Léon",t:"Schéin! A wéi al si deng Kanner?",ph:"[Шэй! А вэй ал зи дэнг Канэр?]",r:"Прекрасно! А сколько лет твоим детям?"},
+  {w:"A",n:"Andrey",t:"Meng Duechter ass zwanzeg Joer al a mäi Jong ass siechzeen.",ph:"[Мэнг Духтэр ас цва́нцэх Йор ал а мэй Йонг ас зи́хцэн]",r:"Моей дочери двадцать лет, а сыну шестнадцать."},
+  {w:"L",n:"Léon",t:"Spillen si och Schach, wéi du?",ph:"[Шпилэн зи ох Шах, вэй ду?]",r:"Они тоже играют в шахматы, как ты?"},
+  {w:"A",n:"Andrey",t:"Mäi Jong spillt Schach mat mir. Hien ass schon zimlech gutt!",ph:"[Мэй Йонг шпилт Шах мат мир. Хин ас шон цимлэх гут!]",r:"Мой сын играет в шахматы со мной. Он уже довольно хороший!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéi grouss ass deng Famill?",ph:"",r:"Джон, какая у тебя большая семья?"},
+  {w:"J",n:"John",t:"Mir sinn véier: meng Fra, mir an eis zwee Kanner. Mäi Jong ass an der Schoul zu Lëtzebuerg, an hien léiert Lëtzebuergesch do. Hien schwätzt et schon besser wéi ech!",ph:"",r:"Нас четверо: моя жена, я и двое детей. Мой сын учится в школе в Люксембурге и изучает люксембургский там. Он уже говорит лучше меня!"}
+ ],
+ ex:[
+  {q:"Как сказать «У меня есть жена» по-люксембургски?",o:["Ech hunn eng Fra","Meng Fra ass...","Ech hunn e Mann","Ech hunn e Kand"],c:0,ok:"Верно! Ech hunn eng Fra = У меня есть жена",no:"Нет. У меня есть жена = Ech hunn eng Fra",exp:"hunn = иметь (как немецкое haben). eng = артикль женского рода. Fra = женщина/жена."},
+  {q:"Сколько детей у Андрея?",o:["Одного","Двух","Трёх","Четырёх"],c:1,ok:"Верно! Zwee Kanner = двое детей (дочь и сын)",no:"Нет. У Андрея zwee Kanner = двое детей",exp:"zwee = два. Kanner = дети (множественное от Kand = ребёнок)."}
+ ]
+},
+{id:11,title:"Schachclub Lëtzebuerg",icon:"♟️",level:"A1",ru_title:"Шахматы: В клубе Люксембурга",type:"chess",
+ words:[
+  {cz:"d'Schachpartie spillen",ru:"сыграть партию в шахматы",ph:"[дэ Шах-парти шпи́лэн]",ic:"♟️"},
+  {cz:"de Schachclub",ru:"шахматный клуб",ph:"[дэ Шах-клуб]",ic:"🏛️"},
+  {cz:"Wëlls du eng Partie spillen?",ru:"Хочешь сыграть партию?",ph:"[Вэлс ду энг Парти шпилэн?]",ic:"❓"},
+  {cz:"Ech spillen dräimol d'Woch",ru:"Я играю три раза в неделю",ph:"[Эх шпилэн дрэй-моль дэ Вох]",ic:"📅"},
+  {cz:"De Schachclub trëfft sech...",ru:"Шахматный клуб встречается...",ph:"[Дэ Шах-клуб трэфт зэх]",ic:"🕐"},
+  {cz:"Schach a Matt!",ru:"Шах и мат!",ph:"[Шах а Мат!]",ic:"♚"},
+  {cz:"Gutt gespillt!",ru:"Хорошо сыграно!",ph:"[Гут гэ-шпилт!]",ic:"👏"},
+  {cz:"Ech mellen mech un.",ru:"Я записываюсь.",ph:"[Эх мэлэн мэх ун]",ic:"✍️"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, ech hunn gewosst datt du Schach spillst. Zu Lëtzebuerg gëtt et e super Schachclub!",ph:"[Эх хун гэвост дат ду Шах шпилст]",r:"Андрей, я знал что ты играешь в шахматы. В Люксембурге есть отличный шахматный клуб!"},
+  {w:"A",n:"Andrey",t:"Wierklech? Dat ass super! Wéini trëfft de Schachclub sech?",ph:"[Вирклэх? Дат ас зупэр! Вэйни трэфт дэ Шах-клуб зэх?]",r:"Правда? Это отлично! Когда встречается шахматный клуб?"},
+  {w:"L",n:"Léon",t:"All Méindeg an all Donneschdeg, owes um siwen Auer.",ph:"[Ал Мэйн-дэх ан ал Донэш-дэх, о́вэс ум зивэн А́уэр]",r:"Каждый понедельник и четверг, вечером в семь часов."},
+  {w:"A",n:"Andrey",t:"Perfekt! Wéi mellen ech mech un?",ph:"[Пэрфэкт! Вэй мэлэн эх мэх ун?]",r:"Идеально! Как мне записаться?"},
+  {w:"L",n:"Léon",t:"Einfach kommen! Keng Umeldung néideg. Wëlls du eng Partie géint mech spillen?",ph:"[Эйнфах ком-эн! Кэнг Умэлдунг нэйдэх. Вэлс ду энг Парти гэйнт мэх шпилэн?]",r:"Просто приходи! Регистрация не нужна. Хочешь сыграть партию против меня?"},
+  {w:"A",n:"Andrey",t:"Jo, gär! Ech warnen dech awer — ech spillen zimlech gutt!",ph:"[Йо, гэр! Эх варнэн дэх авэр — эх шпилэн цимлэх гут!]",r:"Да, с удовольствием! Но предупреждаю — я играю довольно хорошо!"},
+  {w:"L",n:"Léon",t:"Haha! Mir gesinn! Gutt gespillt!",ph:"[Хаха! Мир гэзин! Гут гэ-шпилт!]",r:"Ха-ха! Посмотрим! Хорошо сыграно!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, spills du och Schach?",ph:"",r:"Джон, ты тоже играешь в шахматы?"},
+  {w:"J",n:"John",t:"Keen bëssen, mä net esou gutt wéi Andrey! Ech ginn heiansdo an de Schachclub fir Turnéier ze kucken. D'Atmosphär ass fantastisch — lëtzebuergesch, franséisch an däitsch, alles gläichzäiteg!",ph:"",r:"Немного, но не так хорошо как Андрей! Иногда хожу в шахматный клуб посмотреть турниры. Атмосфера фантастическая — люксембургский, французский и немецкий, всё одновременно!"}
+ ],
+ ex:[
+  {q:"Как предложить сыграть в шахматы?",o:["Spills du Schach?","Wëlls du eng Partie spillen?","Ech spillen Schach","Wou ass de Schachclub?"],c:1,ok:"Верно! Wëlls du eng Partie spillen? = Хочешь сыграть партию?",no:"Нет. Предложение = Wëlls du eng Partie spillen?",exp:"wëlls = хочешь (2 лицо ед.ч.). spillen = играть. Partie = партия (от французского)."},
+  {q:"Когда встречается шахматный клуб?",o:["По выходным","По понедельникам и четвергам","Каждый день","По средам"],c:1,ok:"Правильно! All Méindeg an all Donneschdeg = Каждый понедельник и четверг",no:"Нет. Клуб встречается в понедельник и четверг вечером",exp:"all = каждый. Méindeg = понедельник. Donneschdeg = четверг."}
+ ]
+},
+{id:12,title:"Gesondheet",icon:"❤️",level:"A2",ru_title:"Здоровье",type:"normal",
+ words:[
+  {cz:"Ech sinn krank.",ru:"Я болен/больна.",ph:"[Эх зин кранк]",ic:"🤒"},
+  {cz:"Mir wéit de Kapp.",ru:"У меня болит голова.",ph:"[Мир вэйт дэ Кап]",ic:"🤕"},
+  {cz:"de Dokter / d'Doktesch",ru:"врач (м/ж)",ph:"[дэ Доктэр / дэ Доктэш]",ic:"👨‍⚕️"},
+  {cz:"d'Apdikt",ru:"аптека",ph:"[дэ Ап-дикт]",ic:"💊"},
+  {cz:"e Rezept",ru:"рецепт",ph:"[э Рэцэпт]",ic:"📋"},
+  {cz:"d'Krankekeess",ru:"страховая касса",ph:"[дэ Кранкэ-кэс]",ic:"🏥"},
+  {cz:"Wéi fillt dir iech?",ru:"Как вы себя чувствуете?",ph:"[Вэй филт дир эх?]",ic:"🩺"},
+  {cz:"Ech fillen mech besser.",ru:"Я чувствую себя лучше.",ph:"[Эх фи́лэн мэх бэ́сэр]",ic:"😊"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wéi fillt dir iech haut?",ph:"[Вэй филт дир эх хаут?]",r:"Андрей, как вы себя чувствуете сегодня?"},
+  {w:"A",n:"Andrey",t:"Net esou gutt, leider. Mir wéit de Kapp an ech hunn Féiwer.",ph:"[Нэт эзоу гут, лэйдэр. Мир вэйт дэ Кап ан эх хун Фэйвэр]",r:"Не очень хорошо, к сожалению. Болит голова и у меня жар."},
+  {w:"L",n:"Léon",t:"Dir sollt zu engem Dokter goen. Hutt dir eng Krankekeess?",ph:"[Дир золт цу энэм Доктэр гоэн. Хут дир энг Кранкэ-кэс?]",r:"Вам нужно пойти к врачу. У вас есть страховка?"},
+  {w:"A",n:"Andrey",t:"Jo, ech hunn eng. Wou kann ech e Dokter fannen?",ph:"[Йо, эх хун энг. Ву кан эх э Доктэр фа́нэн?]",r:"Да, есть. Где я могу найти врача?"},
+  {w:"L",n:"Léon",t:"Gitt an d'Kanneklinik oder rufft de Médecin Généraliste un.",ph:"[Гит ан дэ Канэ-клиник одэр руфт дэ Мэдэ-сэн Жэнэра-лист ун]",r:"Идите в поликлинику или позвоните участковому врачу."},
+  {w:"A",n:"Andrey",t:"Merci, Léon. Ech ginn muer, wann ech keen bessert fillen.",ph:"[Мэрси, Леон. Эх гин муэр, ван эх кэн бэ́сэрт фи́лэн]",r:"Спасибо, Léon. Пойду завтра, если не почувствую себя лучше."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéi ass d'Gesondheetsversuergung zu Lëtzebuerg?",ph:"",r:"Джон, как обстоит дело со здравоохранением в Люксембурге?"},
+  {w:"J",n:"John",t:"Exzellent! D'Krankekeess deckt bal alles of. Ech bezuelen nëmmen e klenge Selbstbedeelegung. D'Qualitéit ass héich an d'Waartszäiten sinn kuerz. Ech sinn gläckeg hei ze liewen!",ph:"",r:"Превосходно! Страховая касса покрывает почти всё. Плачу только небольшую долю. Качество высокое и время ожидания короткое. Счастлив жить здесь!"}
+ ],
+ ex:[
+  {q:"Как сказать «У меня болит голова» по-люксембургски?",o:["Ech sinn krank.","Mir wéit de Kapp.","Ech hunn Féiwer.","Mir wéit de Bauch."],c:1,ok:"Верно! Mir wéit de Kapp = У меня болит голова",no:"Нет. Голова болит = Mir wéit de Kapp [Мир вэйт дэ Кап]",exp:"wéit = болит. de Kapp = голова. de Bauch = живот. Дословно: «Мне болит голова»."},
+  {q:"Что такое «d'Krankekeess» в Люксембурге?",o:["Больница","Аптека","Страховая касса","Поликлиника"],c:2,ok:"Правильно! Krankekeess = страховая медицинская касса",no:"Нет. Krankekeess = страховая касса (Krank = больной, Keess = касса)",exp:"Krankenversicherung по-немецки. В Люксембурге обязательная медицинская страховка для всех жителей."}
+ ]
+},
+{id:13,title:"Wunnen zu Lëtzebuerg",icon:"🏠",level:"A2",ru_title:"Жильё в Люксембурге",type:"normal",
+ words:[
+  {cz:"eng Wunneng / e Haus",ru:"квартира / дом",ph:"[энг Вунэнг / э Хаус]",ic:"🏠"},
+  {cz:"de Loyer",ru:"аренда (от фр.)",ph:"[дэ Луайэ]",ic:"💵"},
+  {cz:"Wou wunns du?",ru:"Где ты живёшь?",ph:"[Ву вунс ду?]",ic:"❓"},
+  {cz:"an der Stad / am Duerf",ru:"в городе / в деревне",ph:"[ан дэр Штат / ам Дуэрф]",ic:"🏙️🌳"},
+  {cz:"De Loyer ass héich.",ru:"Аренда высокая.",ph:"[Дэ Луайэ ас хэйх]",ic:"📈"},
+  {cz:"D'Grenz / Cross-border",ru:"граница / приграничный",ph:"[дэ Грэнц]",ic:"🌍"},
+  {cz:"d'Noperen",ru:"соседи",ph:"[дэ Но́пэрэн]",ic:"🏘️"},
+  {cz:"zéien / goen",ru:"переезжать",ph:"[цэйэн / гоэн]",ic:"🚚"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wou wunns du zu Lëtzebuerg?",ph:"[Ву вунс ду цу Лэцэбуэрг?]",r:"Андрей, где ты живёшь в Люксембурге?"},
+  {w:"A",n:"Andrey",t:"Ech wunnen zu Esch-sur-Alzette, am Süden. Mir hunn eng Wunneng do gemat.",ph:"[Эх вунэн цу Эш-зур-Алзэт, ам Зю́дэн]",r:"Я живу в Эш-сюр-Альзет, на юге. Мы снимаем там квартиру."},
+  {w:"L",n:"Léon",t:"Wéi vill bezuelt dir Loyer?",ph:"[Вэй фил бэцу́элт дир Луайэ?]",r:"Сколько вы платите за аренду?"},
+  {w:"A",n:"Andrey",t:"Ongeféier zweedausend Euro de Mount. Et ass deier, mä d'Qualitéit ass gutt.",ph:"[Ун-гэ-фэйр цвэй-да́узэнт Ойро дэ Мунт]",r:"Около двух тысяч евро в месяц. Дорого, но качество хорошее."},
+  {w:"L",n:"Léon",t:"Vill Leit wunnen a Frankräich oder Belsch a schaffen hei. Cross-border!",ph:"[Фил Лэйт вунэн а Фра́нкрэйх одэр Бэлш а шафэн хэй]",r:"Многие люди живут во Франции или Бельгии и работают здесь. Приграничные!"},
+  {w:"A",n:"Andrey",t:"Jo, ech weess! Lëtzebuerg ass e ganz internationale Land.",ph:"[Йо, эх вэс! Лэцэбуэрг ас э ганц интэрна-цьона́лэс Ланд]",r:"Да, знаю! Люксембург очень международная страна."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wou wunns du?",ph:"",r:"Джон, где ты живёшь?"},
+  {w:"J",n:"John",t:"Ech wunnen zu Bettemburg, no bei der Grenz mat Frankräich. Et ass méi bëlleg wéi an der Stad Lëtzebuerg, mä ech kommen schnell mat dem Zuch. D'Noperen si frëndlech — Lëtzebuerger, Fransousen a Portugisen!",ph:"",r:"Живу в Беттамбуре, близко к границе с Францией. Дешевле чем в городе Люксембург, но быстро добираюсь на поезде. Соседи дружелюбные — люксембуржцы, французы и португальцы!"}
+ ],
+ ex:[
+  {q:"Что означает «Cross-border» применительно к Люксембургу?",o:["Турист","Живёт в соседней стране и работает в Люксембурге","Гражданин двух стран","Работает за рубежом"],c:1,ok:"Верно! Cross-border = фронтальер: живёт во Франции/Бельгии/Германии, работает в Люксембурге",no:"Нет. Cross-border = фронтальер (живёт за границей, работает в Лю-ке)",exp:"Около 200 000 человек ежедневно въезжают в Люксембург на работу из трёх соседних стран!"},
+  {q:"Как сказать «Я живу в квартире» по-люксембургски?",o:["Ech wunnen an engem Haus","Ech wunnen an enger Wunneng","Ech hunn eng Wunneng gemat","Ech sichen eng Wunneng"],c:1,ok:"Правильно! Ech wunnen an enger Wunneng = Я живу в квартире",no:"Нет. Живу в квартире = Ech wunnen an enger Wunneng",exp:"wunnen = жить. Wunneng = квартира. enger = в + артикль женского рода."}
+ ]
+},
+{id:14,title:"Beruffer a Schaffen",icon:"💼",level:"A2",ru_title:"Профессии и работа",type:"normal",
+ words:[
+  {cz:"Wat maacht dir berufflech?",ru:"Чем вы занимаетесь профессионально?",ph:"[Ват махт дир бэ-руф-лэх?]",ic:"💼"},
+  {cz:"Ech schaffen als...",ru:"Я работаю как...",ph:"[Эх шафэн алс]",ic:"🧑‍💻"},
+  {cz:"d'Aarbecht fannen",ru:"найти работу",ph:"[дэ Арбэхт фа́нэн]",ic:"🔍"},
+  {cz:"de Chômage",ru:"безработица (от фр.)",ph:"[дэ Шома́ж]",ic:"📉"},
+  {cz:"d'Gehalt",ru:"зарплата",ph:"[дэ Гэха́лт]",ic:"💰"},
+  {cz:"de Patron / d'Patronin",ru:"начальник/начальница",ph:"[дэ Патро́н / дэ Патро́нин]",ic:"👔"},
+  {cz:"d'Reunioun",ru:"собрание (от фр.)",ph:"[дэ Рэ-ю-ньо́н]",ic:"📊"},
+  {cz:"telefonéieren / emailen",ru:"звонить / писать email",ph:"[тэлэфо-нэ́йрэн / имэ́йлэн]",ic:"📞📧"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wat maacht dir berufflech zu Lëtzebuerg?",ph:"[Ват махт дир бэ-руф-лэх цу Лэцэбуэрг?]",r:"Андрей, чем вы занимаетесь профессионально в Люксембурге?"},
+  {w:"A",n:"Andrey",t:"Ech schaffen am Finanzberäich. Ech sinn Informatiker bei enger Banque.",ph:"[Эх шафэн ам Финанц-бэрэйх. Эх зин Информа́тикэр бэй энэр Банк]",r:"Я работаю в финансовой сфере. Я IT-специалист в банке."},
+  {w:"L",n:"Léon",t:"Excellent! Lëtzebuerg ass ee vun de gréisste Finanzzentren an Europa.",ph:"[Лэцэбуэрг ас эй фун дэ грэйстэ Финанц-цэнтрэн ан Ойропа]",r:"Отлично! Люксембург — один из крупнейших финансовых центров Европы."},
+  {w:"A",n:"Andrey",t:"Jo, dofir si vill internationale Firmen hei. Meng Kollegen schwätzen Däitsch, Franséisch an Englesch.",ph:"[Йо, дофир зи фил интэрна-цьона́лэ Фирмэн хэй]",r:"Да, поэтому здесь много международных компаний. Мои коллеги говорят по-немецки, французски и английски."},
+  {w:"L",n:"Léon",t:"An Lëtzebuergesch?",ph:"",r:"И по-люксембургски?"},
+  {w:"A",n:"Andrey",t:"Dat léiere mir! Dofir sinn ech hei bei dir!",ph:"[Дат лэйрэн мир! Дофир зин эх хэй бэй дир!]",r:"Это мы учим! Поэтому я здесь у тебя!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéi ass den Aarbechtsmaart zu Lëtzebuerg?",ph:"",r:"Джон, как рынок труда в Люксембурге?"},
+  {w:"J",n:"John",t:"Ganz gutt! D'Chômage-Taux ass vun den niddregsten an Europa. Mäi Gehalt ass gutt, mä d'Liewenskäschten si och héich. Mä ech klaage net — et ass e super Land fir ze liewen!",ph:"",r:"Очень хорошо! Уровень безработицы один из самых низких в Европе. Зарплата хорошая, но и стоимость жизни высокая. Но я не жалуюсь — отличная страна для жизни!"}
+ ],
+ ex:[
+  {q:"Как сказать «Я работаю в банке»?",o:["Ech hunn eng Aarbecht","Ech schaffen bei enger Banque","Ech sichen Aarbecht","Ech maachen Aarbecht"],c:1,ok:"Верно! Ech schaffen bei enger Banque = Я работаю в банке",no:"Нет. Работаю в банке = Ech schaffen bei enger Banque",exp:"schaffen = работать (как немецкое schaffen, но здесь = arbeiten). bei = при/в. Banque = банк (от французского)."},
+  {q:"Почему в Люксембурге много международных компаний?",o:["Дешёвые налоги","Центр ЕС и крупный финансовый центр","Лучший климат","Самый большой аэропорт"],c:1,ok:"Правильно! Люксембург — крупный финансовый центр ЕС со многими льготами",no:"Нет. Люксембург = один из крупнейших финансовых центров Европы",exp:"В Люксембурге находятся Европейский суд, Европейский инвестбанк и сотни международных компаний."}
+ ]
+},
+{id:15,title:"Sprooch zu Lëtzebuerg",icon:"🗣️",level:"A2",ru_title:"Языки в Люксембурге",type:"normal",
+ words:[
+  {cz:"Lëtzebuergesch",ru:"люксембургский язык",ph:"[Лэцэ-буэр-гэш]",ic:"🇱🇺"},
+  {cz:"Däitsch",ru:"немецкий",ph:"[Дэйтш]",ic:"🇩🇪"},
+  {cz:"Franséisch",ru:"французский",ph:"[Фра́н-зэйш]",ic:"🇫🇷"},
+  {cz:"Englesch",ru:"английский",ph:"[Э́нглэш]",ic:"🇬🇧"},
+  {cz:"Wéi vill Sproochen schwätzt dir?",ru:"Сколько языков вы говорите?",ph:"[Вэй фил Шпрохэн швэцт дир?]",ic:"❓"},
+  {cz:"Ech schwätzen...",ru:"Я говорю...",ph:"[Эх швэцэн]",ic:"🗣️"},
+  {cz:"fléissend / e bëssen",ru:"свободно / немного",ph:"[флэйсэнд / э бэшэн]",ic:"📊"},
+  {cz:"de Sproochentest",ru:"языковой экзамен",ph:"[дэ Шпрохэн-тэст]",ic:"📝"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wéi vill Sproochen schwätzt du?",ph:"[Вэй фил Шпрохэн швэцт ду?]",r:"Андрей, сколько языков ты говоришь?"},
+  {w:"A",n:"Andrey",t:"Ech schwätzen Russesch, Englesch a bëssen Däitsch. Elo léiere ech Lëtzebuergesch!",ph:"[Эх швэцэн Русэш, Э́нглэш а бэшэн Дэйтш. Эло лэйрэн эх Лэцэбуэргэш!]",r:"Я говорю по-русски, по-английски и немного по-немецки. Теперь учу люксембургский!"},
+  {w:"L",n:"Léon",t:"Perfekt! Däitsch hëlleft dir ganz vill mat Lëtzebuergesch. Mir si Schwësterspoochen.",ph:"[Пэрфэкт! Дэйтш хэлэфт дир ганц фил мат Лэцэбуэргэш]",r:"Идеально! Немецкий очень помогает с люксембургским. Мы языки-сёстры."},
+  {w:"A",n:"Andrey",t:"Jo, ech gesinn dat! A wat fir de Sproochentest brauche ech Lëtzebuergesch?",ph:"[А ват фир дэ Шпрохэн-тэст брауhэ эх Лэцэбуэргэш?]",r:"Да, вижу это! А для языкового теста мне нужен люксембургский?"},
+  {w:"L",n:"Léon",t:"Jo! De Sproochentest ass obligatoresch fir d'Lëtzebuerger Nationalitéit. Du brauchs Niveau A2-B1.",ph:"[Йо! Дэ Шпрохэн-тэст ас облига-то́рэш фир дэ Лэцэбуэргэр Националитэйт]",r:"Да! Языковой тест обязателен для люксембургского гражданства. Нужен уровень A2-B1."},
+  {w:"A",n:"Andrey",t:"Da musse mir schaffen! Ech wëll d'Nationalitéit kréien!",ph:"[Да мусэ мир шафэн! Эх вэл дэ Националитэйт крэйэн!]",r:"Тогда надо работать! Я хочу получить гражданство!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, hues du de Sproochentest schon gemaach?",ph:"",r:"Джон, ты уже сдавал языковой тест?"},
+  {w:"J",n:"John",t:"Jo, virun engem Joer! Et war schwéier, mä ech hunn et packt. D'Prüfung huet zwou Deeler: Nolauschteren an Schwätzen. Ech empfeelen all Dag ze üben — net just virun dem Test!",ph:"",r:"Да, год назад! Было сложно, но я справился. Экзамен состоит из двух частей: аудирование и говорение. Рекомендую практиковаться каждый день — не только перед тестом!"}
+ ],
+ ex:[
+  {q:"Что нужно для получения люксембургского гражданства?",o:["Только жить 5 лет","Сдать Sproochentest по люксембургскому","Знать историю страны","Платить налоги 10 лет"],c:1,ok:"Правильно! Sproochentest = обязательный языковой тест для получения гражданства",no:"Нет. Sproochentest — обязательный экзамен по люксембургскому языку",exp:"Для гражданства нужно: жить 5+ лет, пройти курс гражданского образования, сдать Sproochentest (A2-B1)."},
+  {q:"Какой уровень нужен для Sproochentest?",o:["A1","A2-B1","B2","C1"],c:1,ok:"Верно! Нужен уровень A2-B1 по люксембургскому",no:"Нет. Sproochentest требует уровень A2-B1",exp:"Именно поэтому наш курс из 77 уроков ведёт с нуля до уровня B1 — достаточного для сдачи экзамена!"}
+ ]
+}
+];
+
+{id:16,title:"Wieder a Saisons",icon:"🌤️",level:"A2",ru_title:"Погода и времена года",type:"normal",
+ words:[
+  {cz:"Et reeent.",ru:"Идёт дождь.",ph:"[Эт рэйэнт]",ic:"🌧️"},
+  {cz:"Et schneit.",ru:"Идёт снег.",ph:"[Эт шнэйт]",ic:"❄️"},
+  {cz:"D'Sonn schéngt.",ru:"Светит солнце.",ph:"[Дэ Зон шэйнт]",ic:"☀️"},
+  {cz:"Et ass waarm / kal.",ru:"Тепло / Холодно.",ph:"[Эт ас варм / каль]",ic:"🌡️"},
+  {cz:"de Fréijoer / de Summer",ru:"весна / лето",ph:"[дэ Фрэйор / дэ Зумэр]",ic:"🌸☀️"},
+  {cz:"den Hierscht / de Wanter",ru:"осень / зима",ph:"[дэн Хиршт / дэ Вантэр]",ic:"🍂❄️"},
+  {cz:"Wéi ass d'Wieder haut?",ru:"Какая погода сегодня?",ph:"[Вэй ас дэ Ви́дэр хаут?]",ic:"☁️"},
+  {cz:"schéint / bewölkt",ru:"солнечно / облачно",ph:"[шэйнт / бэвэлкт]",ic:"⛅"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wéi ass d'Wieder haut zu Lëtzebuerg?",ph:"[Вэй ас дэ Ви́дэр хаут?]",r:"Андрей, какая сегодня погода в Люксембурге?"},
+  {w:"A",n:"Andrey",t:"Et ass bewölkt a bëssen kal. Et kéint reenen.",ph:"[Эт ас бэ-вэлкт а бэшэн каль. Эт кэйнт рэйэнэн]",r:"Облачно и немного холодно. Может пойти дождь."},
+  {w:"L",n:"Léon",t:"Jo, de Wanter zu Lëtzebuerg ass oft nebleg. Mä de Fréijoer ass wonnerschéin!",ph:"[Йо, дэ Вантэр цу Лэцэбуэрг ас офт нэблэх]",r:"Да, зима в Люксембурге часто туманная. Но весна прекрасна!"},
+  {w:"A",n:"Andrey",t:"Ech léiwen de Summer méi! Ideal fir de Grand Prix ze kucken!",ph:"[Эх лэйвэн дэ Зумэр мэй!]",r:"Мне больше нравится лето! Идеально для просмотра Гран-при!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wat ass deng Lieblingsjoereszäit?",ph:"",r:"Джон, какое твоё любимое время года?"},
+  {w:"J",n:"John",t:"Den Hierscht! D'Blieder sinn magnifique an d'Temperaturen si perfekt. Ech goe vill wanderen an de Lëtzebuerger Ardennen.",ph:"",r:"Осень! Листья великолепны и температуры идеальны. Много хожу в походы в люксембургских Арденнах."}
+ ],
+ ex:[
+  {q:"Как сказать «Идёт дождь» по-люксембургски?",o:["Et schneit.","D'Sonn schéngt.","Et reeent.","Et ass kal."],c:2,ok:"Верно! Et reeent = Идёт дождь",no:"Нет. Дождь идёт = Et reeent [Эт рэйэнт]",exp:"reeent от немецкого regnet. Заметьте — в люксембургском часто удваивают гласные!"},
+  {q:"Как называется осень по-люксембургски?",o:["de Summer","de Fréijoer","den Hierscht","de Wanter"],c:2,ok:"Правильно! den Hierscht = осень",no:"Нет. Осень = den Hierscht [дэн Хиршт]",exp:"Hierscht похоже на немецкое Herbst. Это поможет запомнить!"}
+ ]
+},
+{id:17,title:"Emotiounen a Gefiller",icon:"💝",level:"A2",ru_title:"Эмоции и чувства",type:"normal",
+ words:[
+  {cz:"Ech sinn glécklech.",ru:"Я счастлив.",ph:"[Эх зин глэклэх]",ic:"😊"},
+  {cz:"Ech sinn traureg.",ru:"Я грустный.",ph:"[Эх зин траурэх]",ic:"😢"},
+  {cz:"Ech sinn midd.",ru:"Я устал.",ph:"[Эх зин мид]",ic:"😴"},
+  {cz:"Ech freet mech.",ru:"Я рад / рада.",ph:"[Эх фрэт мэх]",ic:"🌟"},
+  {cz:"Ech sinn opgeregt.",ru:"Я взволнован.",ph:"[Эх зин оп-гэ-рэхт]",ic:"😮"},
+  {cz:"Ech vermësst...",ru:"Я скучаю по...",ph:"[Эх фэрмэст]",ic:"💔"},
+  {cz:"Wéi fillt dir iech?",ru:"Как вы себя чувствуете?",ph:"[Вэй филт дир эх?]",ic:"🩺"},
+  {cz:"Ech fillen mech wuel.",ru:"Я чувствую себя хорошо.",ph:"[Эх фи́лэн мэх вуэль]",ic:"😊"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, wéi fillt dir iech haut?",ph:"",r:"Андрей, как вы себя чувствуете сегодня?"},
+  {w:"A",n:"Andrey",t:"Ech sinn opgeregt! Den nächste Grand Prix ass e Sonndeg zu Spa!",ph:"[Эх зин оп-гэ-рэхт! Дэн нэхстэн Грандпри ас э Зон-дэх цу Шпа!]",r:"Я взволнован! Следующий Гран-при в воскресенье в Спа!"},
+  {w:"L",n:"Léon",t:"Haha! Ech gesinn du bass e richtege F1-Fan. Wéi laang follews du d'F1?",ph:"",r:"Ха-ха! Вижу ты настоящий фанат F1. Как давно ты следишь за F1?"},
+  {w:"A",n:"Andrey",t:"Zanter Joeren! Ech sinn glécklech wann mäi Favorit gewënnt.",ph:"[Зантэр Ёрэн! Эх зин глэклэх ван мэй Фавори́т гэвэнт]",r:"Годами! Я счастлив когда мой фаворит побеждает."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, vermësst du deng Heemecht?",ph:"",r:"Джон, ты скучаешь по родине?"},
+  {w:"J",n:"John",t:"Heiansdo jo. Ech vermësse meng Famill an England. Mä ech fillen mech wuel zu Lëtzebuerg. Et ass mäi zweete Heem ginn.",ph:"",r:"Иногда да. Скучаю по семье в Англии. Но чувствую себя хорошо в Люксембурге. Он стал моим вторым домом."}
+ ],
+ ex:[
+  {q:"Как сказать «Я счастлив» по-люксембургски?",o:["Ech sinn traureg.","Ech sinn midd.","Ech sinn glécklech.","Ech fillen mech gutt."],c:2,ok:"Верно! Ech sinn glécklech = Я счастлив",no:"Нет. Счастлив = Ech sinn glécklech [Эх зин глэклэх]",exp:"glécklech похоже на немецкое glücklich. Вы уже начинаете видеть связь!"},
+  {q:"Андрей взволнован. Почему?",o:["Он выиграл в шахматы","Гран-при в воскресенье в Спа","Нашёл работу","Получил гражданство"],c:1,ok:"Правильно! Andrey opgeregt well de Grand Prix zu Spa kënnt!",no:"Нет. Андрей взволнован из-за Гран-при в Спа в воскресенье",exp:"Спа-Франкоршам — одна из самых знаменитых трасс F1, всего в 50 км от Люксембурга!"}
+ ]
+},
+{id:18,title:"Bei der Post a Bank",icon:"🏦",level:"A2",ru_title:"На почте и в банке",type:"normal",
+ words:[
+  {cz:"e Kont opmaachen",ru:"открыть счёт",ph:"[э Конт оп-махэн]",ic:"🏦"},
+  {cz:"Suen iwwerwisen",ru:"перевести деньги",ph:"[Зуэн и́вэр-визэн]",ic:"💸"},
+  {cz:"e Bréif / e Paquet",ru:"письмо / посылка",ph:"[э Брэйф / э Пакэт]",ic:"📬"},
+  {cz:"afuere op d'Bank",ru:"поехать в банк",ph:"[афу́рэн оп дэ Банк]",ic:"🚗"},
+  {cz:"IBAN / BIC",ru:"IBAN / BIC (как везде)",ph:"[ИБАН / БИК]",ic:"🔢"},
+  {cz:"De Guichet / d'Schalter",ru:"окошко/стойка",ph:"[дэ Гишэ / дэ Шалтэр]",ic:"🪟"},
+  {cz:"Kann ech...?",ru:"Могу ли я...?",ph:"[Кан эх?]",ic:"❓"},
+  {cz:"Ech brauch eng Hëllef.",ru:"Мне нужна помощь.",ph:"[Эх браух энг Хэлэф]",ic:"🙋"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, hues du schon e Bankkonto zu Lëtzebuerg?",ph:"",r:"Андрей, у тебя уже есть банковский счёт в Люксембурге?"},
+  {w:"A",n:"Andrey",t:"Jo, ech hunn e Konto bei der BGL BNP Paribas. Kannst du mir hëllefen Suen ze iwwerwisen?",ph:"[Канст ду мир хэ́лэфэн Зуэн цэ и́вэр-визэн?]",r:"Да, счёт в BGL BNP Paribas. Ты можешь помочь мне перевести деньги?"},
+  {w:"L",n:"Léon",t:"Natierlech! Brauchs du den IBAN vum Empfänger?",ph:"",r:"Конечно! Тебе нужен IBAN получателя?"},
+  {w:"A",n:"Andrey",t:"Jo. Ech wëll Suen op mäi Schachclub zu Moskau schécken — eng Umeldungsgebühr.",ph:"",r:"Да. Хочу отправить деньги в мой шахматный клуб в Москве — регистрационный взнос."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéi eng Banken empfiehlst du?",ph:"",r:"Джон, какие банки ты рекомендуешь?"},
+  {w:"J",n:"John",t:"Ech sinn bei der Spuerkeess, déi ass liicht a gutt fir Alldag. Mä et gëtt och digital Banken wéi Revolut déi vill Expaten benotzen.",ph:"",r:"Я в Spuerkeess, она простая и хорошая для ежедневных нужд. Но есть и цифровые банки как Revolut, которые используют многие экспаты."}
+ ],
+ ex:[
+  {q:"Как сказать «Открыть счёт»?",o:["e Kont maachen","e Kont opmaachen","eng Banque fannen","Suen deposéieren"],c:1,ok:"Верно! e Kont opmaachen = открыть счёт",no:"Нет. Открыть счёт = e Kont opmaachen",exp:"op- = приставка 'открыть'. maachen = делать. Многие глаголы в lb с отделяемыми приставками как в немецком!"},
+  {q:"Зачем Андрей переводит деньги в Москву?",o:["Чтобы купить шахматы","Регистрационный взнос в шахматный клуб","Оплатить F1 трансляцию","Отправить семье"],c:1,ok:"Правильно! Андрей платит членский взнос в шахматный клуб",no:"Нет. Андрей переводит деньги в шахматный клуб в Москве",exp:"Шахматы — международная игра! Андрей остаётся членом своего клуба даже живя в Люксембурге."}
+ ]
+},
+{id:19,title:"Telefongespréich",icon:"📞",level:"A2",ru_title:"Телефонный разговор",type:"normal",
+ words:[
+  {cz:"Hallo, wien schwätzt do?",ru:"Алло, кто говорит?",ph:"[Хало, вин швэцт до?]",ic:"📞"},
+  {cz:"Ech wëll mat... schwätzen.",ru:"Я хочу поговорить с...",ph:"[Эх вэл мат ... швэцэн]",ic:"🗣️"},
+  {cz:"Ee Moment, wannechgelift.",ru:"Одну минуту, пожалуйста.",ph:"[Эй Момэнт, ван-эх-гэ-лифт]",ic:"⏱️"},
+  {cz:"Kënnt dir e Message hannerloossen?",ru:"Можете оставить сообщение?",ph:"[Кэнт дир э Мэсаж ха́нэр-лосэн?]",ic:"📝"},
+  {cz:"Ech rëff erëm un.",ru:"Я перезвоню.",ph:"[Эх рэф э́рэм ун]",ic:"🔄"},
+  {cz:"D'Linn ass besat.",ru:"Линия занята.",ph:"[Дэ Лин ас бэзат]",ic:"📵"},
+  {cz:"rufft un / schéckt SMS",ru:"позвони / отправь SMS",ph:"[руфт ун / шэкт эсэмэс]",ic:"📱"},
+  {cz:"Bis geschwënn!",ru:"До скорого!",ph:"[Бис гэшвэн!]",ic:"👋"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Hallo?",ph:"[Хало?]",r:"Алло?"},
+  {w:"A",n:"Andrey",t:"Moien, Léon! Heie schwätzt Andrey. Hues du e Moment?",ph:"[Мо́йен, Леон! Хэй швэцт Андрэй. Хуэс ду э Момэнт?]",r:"Доброе утро, Léon! Это Андрей. У тебя есть минута?"},
+  {w:"L",n:"Léon",t:"Jo, natierlech! Wat ass lass?",ph:"[Йо, нату́рлэх! Ват ас лас?]",r:"Да, конечно! Что случилось?"},
+  {w:"A",n:"Andrey",t:"Den Sproochentest ass e Méindeg. Ech sinn nervös! Kënns du mir hëllefen ze üben?",ph:"[Дэн Шпрохэн-тэст ас э Мэйн-дэх. Эх зин нэр-вёс!]",r:"Языковой тест в понедельник. Я нервничаю! Ты можешь помочь мне потренироваться?"},
+  {w:"L",n:"Léon",t:"Natierlech! Kommen nach haut Owend. Mir üben zesummen. Keng Suergen!",ph:"[Нату́рлэх! Комэн нох хаут О́вэнт. Мир ю́бэн цэза́мэн. Кэнг Зуэр-гэн!]",r:"Конечно! Приходи сегодня вечером. Потренируемся вместе. Не волнуйся!"},
+  {w:"A",n:"Andrey",t:"Super! Merci, Léon! Bis geschwënn!",ph:"[Зупэр! Мэрси, Леон! Бис гэшвэн!]",r:"Отлично! Спасибо, Léon! До скорого!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, benotzt du WhatsApp oder ruffs du un?",ph:"",r:"Джон, ты пользуешься WhatsApp или звонишь?"},
+  {w:"J",n:"John",t:"Meeschtens WhatsApp fir Frënn a Famill. Mä professionell ruffs ech ëmmer un — e Telefongespréich ass méi perséinlech.",ph:"",r:"Чаще WhatsApp для друзей и семьи. Но профессионально всегда звоню — телефонный разговор более личный."}
+ ],
+ ex:[
+  {q:"Как сказать «Алло, кто говорит?»",o:["Wou bass du?","Hallo, wien schwätzt do?","Ech sinn do","Schwätz mat mir"],c:1,ok:"Верно! Hallo, wien schwätzt do? = Алло, кто говорит?",no:"Нет. Алло, кто говорит? = Hallo, wien schwätzt do?",exp:"wien = кто. schwätzt = говорит. do = там/здесь. Как и в немецком."},
+  {q:"Почему Андрей звонит Léon'у?",o:["Пригласить на F1","Нервничает перед языковым тестом","Хочет сыграть в шахматы","Нужна помощь с банком"],c:1,ok:"Правильно! Андрей нервничает перед Sproochentest и просит потренироваться",no:"Нет. Андрей звонит потому что нервничает перед языковым тестом",exp:"Sproochentest — важный экзамен для гражданства. Léon помогает Андрею подготовиться — как настоящий друг!"}
+ ]
+},
+{id:20,title:"A1 Ofschlossdialog",icon:"🎯",level:"A1",ru_title:"Итоговый диалог A1",type:"normal",
+ words:[
+  {cz:"Ech hunn vill geléiert!",ru:"Я многому научился!",ph:"[Эх хун фил гэ-лэйрт!]",ic:"📚"},
+  {cz:"Ech ka schwätzen!",ru:"Я могу говорить!",ph:"[Эх ка швэцэн!]",ic:"🗣️"},
+  {cz:"Ech verstinn!",ru:"Я понимаю!",ph:"[Эх фэр-штин!]",ic:"💡"},
+  {cz:"Bravo! Excellent!",ru:"Браво! Отлично!",ph:"[Брáво! Экселлэнт!]",ic:"🏆"},
+  {cz:"Weider esou!",ru:"Продолжайте так!",ph:"[Вэйдэр эзоу!]",ic:"💪"},
+  {cz:"Et mécht Spaass!",ru:"Это весело! (мне нравится!)",ph:"[Эт мэхт Шпас!]",ic:"😄"},
+  {cz:"Ech wëll weider maachen!",ru:"Я хочу продолжать!",ph:"[Эх вэл вэйдэр махэн!]",ic:"🚀"},
+  {cz:"Bis zum nächste Mol!",ru:"До следующего раза!",ph:"[Бис цум нэхстэн Моль!]",ic:"👋"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, haut ofschléisse mir de Bloc A1. Wat hues du geléiert?",ph:"[Хаут оф-шлэйсэн мир дэ Блок А1. Ват хуэс ду гэ-лэйрт?]",r:"Андрей, сегодня завершаем блок A1. Чему ты научился?"},
+  {w:"A",n:"Andrey",t:"Ech ka Lëtzebuergesch liesen an schwätzen! Moien, merci, wann ech gelift — ech benotzen dës Wierder all Dag!",ph:"[Эх ка Лэцэбуэргэш лэйзэн ан швэцэн!]",r:"Я могу читать и говорить по-люксембургски! Moien, merci, wann ech gelift — использую эти слова каждый день!"},
+  {w:"L",n:"Léon",t:"Bravo, Andrey! Du hues och iwwer F1 an Schach op Lëtzebuergesch geschwat!",ph:"[Брáво, Андрэй! Ду хуэс ох и́вэр Эф-айн ан Шах оп Лэцэбуэргэш гэшват!]",r:"Браво, Андрей! Ты также говорил о F1 и шахматах по-люксембургски!"},
+  {w:"A",n:"Andrey",t:"Dat war déi bescht Leeren! Ech wëll weider maachen bis zum Sproochentest!",ph:"[Дат вар дэй бэшт Лэрэн! Эх вэл вэйдэр махэн бис цум Шпрохэн-тэст!]",r:"Это было лучшее обучение! Хочу продолжать до Sproochentest!"},
+  {w:"L",n:"Léon",t:"Parfait! De Bloc A2 fänkt elo un. Weider esou, Andrey!",ph:"[Пар-фэ! Дэ Блок А2 фэнкт эло ун. Вэйдэр эзоу, Андрэй!]",r:"Превосходно! Блок A2 начинается. Так держать, Андрей!"},
+  {w:"A",n:"Andrey",t:"Et mécht Spaass! Bis zum nächste Mol, Léon!",ph:"[Эт мэхт Шпас! Бис цум нэхстэн Моль, Леон!]",r:"Это весело! До следующего раза, Léon!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wat war deen éischten Dag mat Lëtzebuergesch?",ph:"",r:"Джон, каким был твой первый день с люксембургским?"},
+  {w:"J",n:"John",t:"Schwéier mä spannend! D'éischt Wierder — Moien, merci, wann ech gelift — hunn alles geännert. D'Leit si méi frëndlech wann een hir Sprooch schwätzt!",ph:"",r:"Сложным, но интересным! Первые слова — Moien, merci, wann ech gelift — изменили всё. Люди дружелюбнее когда говоришь на их языке!"}
+ ],
+ ex:[
+  {q:"Как сказать «Я хочу продолжать!»",o:["Ech ka schwätzen!","Ech wëll weider maachen!","Et mécht Spaass!","Ech verstinn!"],c:1,ok:"Верно! Ech wëll weider maachen! = Я хочу продолжать!",no:"Нет. Хочу продолжать = Ech wëll weider maachen!",exp:"wëll = хочу. weider = дальше/продолжать. maachen = делать. Вы уже составляете предложения!"},
+  {q:"Чему Андрей научился в блоке A1?",o:["Только приветствиям","Люксембургскому языку + говорил о F1 и шахматах","Только цифрам","Только еде"],c:1,ok:"Правильно! Андрей выучил основы И использовал язык для своих увлечений!",no:"Нет. Андрей выучил язык И применял его в контексте F1 и шахмат!",exp:"Персонализированное обучение работает! Когда тема интересна — язык запоминается быстрее."}
+ ]
+},
+{id:21,title:"Aarbecht kréien",icon:"💼",level:"A2",ru_title:"Получить работу — собеседование",type:"normal",
+ words:[
+  {cz:"den Entretien d'embauche",ru:"собеседование (от фр.)",ph:"[дэн Антрэтьен дамбош]",ic:"💼"},
+  {cz:"de Liewenslaf",ru:"резюме/CV",ph:"[дэ Ли́вэнс-лаф]",ic:"📄"},
+  {cz:"Ech hunn Erfarung mat...",ru:"У меня есть опыт в...",ph:"[Эх хун Эрфарунг мат]",ic:"✅"},
+  {cz:"Meng Stäerkten sinn...",ru:"Мои сильные стороны...",ph:"[Мэнг Штэрктэн зин]",ic:"💪"},
+  {cz:"Wéini kënnt dir ufänken?",ru:"Когда вы можете начать?",ph:"[Вэйни кэнт дир уфэнкэн?]",ic:"📅"},
+  {cz:"Wat ass d'Gehalt?",ru:"Какая зарплата?",ph:"[Ват ас дэ Гэхальт?]",ic:"💰"},
+  {cz:"Ech si motivéiert.",ru:"Я мотивирован.",ph:"[Эх зи мотивэйрт]",ic:"🔥"},
+  {cz:"Merci fir d'Geleeënheet.",ru:"Спасибо за возможность.",ph:"[Мэрси фир дэ Гэлэй-энхэйт]",ic:"🙏"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Gudde Moien, Herr Andrey. Setzt iech, wannechgelift.",ph:"[Гудэ Мо́йен, Хэр Андрэй. Зэцт эх, ван-эх-гэ-лифт]",r:"Доброе утро, господин Андрей. Присаживайтесь, пожалуйста."},
+  {w:"A",n:"Andrey",t:"Merci. Ech si frou hei ze sinn. Et ass eng super Firma.",ph:"[Мэрси. Эх зи фру хэй цэ зин. Эт ас энг зупэр Фирма]",r:"Спасибо. Я рад быть здесь. Это отличная компания."},
+  {w:"L",n:"Léon",t:"Warum wëllt dir bei eis schaffen?",ph:"[Варум вэлт дир бэй эйс шафэн?]",r:"Почему вы хотите работать у нас?"},
+  {w:"A",n:"Andrey",t:"Ech hunn zéng Joer Erfarung an IT. Meng Stäerkten sinn Probleemléisung a strategescht Denken — wéi am Schach!",ph:"[Эх хун цэнг Йор Эрфарунг ан ИТ. Мэнг Штэрктэн зин Пробле-лэй-зунг а штра-тэ-гэш Дэнкэн]",r:"У меня десять лет опыта в IT. Мои сильные стороны — решение проблем и стратегическое мышление — как в шахматах!"},
+  {w:"L",n:"Léon",t:"Interessant! A wéivill Sprooche schwätzt dir?",ph:"",r:"Интересно! А сколько языков вы говорите?"},
+  {w:"A",n:"Andrey",t:"Russesch, Englesch, bëssen Däitsch an... Lëtzebuergesch! Ech léiere gäre.",ph:"[Русэш, Э́нглэш, бэшэн Дэйтш ан... Лэцэбуэргэш! Эх лэйрэ гэрэ]",r:"Русский, английский, немного немецкий и... люксембургский! Я люблю учиться."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéi war den Entretien wéi du hei op Lëtzebuerg koums?",ph:"",r:"Джон, каким было собеседование когда ты приехал в Люксембург?"},
+  {w:"J",n:"John",t:"Ganz professionell mä och entspaant. Ech hunn op Englesch geschwat well mäi Lëtzebuergesch nach schwaach war. Haut wier ech de Sproochentest virum Entretien maachen!",ph:"",r:"Очень профессиональное, но и расслабленное. Говорил по-английски потому что мой люксембургский был ещё слабым. Сегодня я бы сначала сдал языковой тест!"}
+ ],
+ ex:[
+  {q:"Андрей сравнивает работу с чем?",o:["С формулой 1","С шахматами — стратегическое мышление","С люксембургским языком","С программированием"],c:1,ok:"Верно! Андрей говорит что стратегическое мышление в шахматах помогает в работе!",no:"Нет. Андрей сравнивает стратегическое мышление в IT с шахматами",exp:"Отличный приём! Связывать свои увлечения с профессиональными навыками на собеседовании."},
+  {q:"Как сказать «У меня есть опыт в IT»?",o:["Ech schaffen an IT","Ech hunn Erfarung mat IT","Ech léieren IT","Ech wëll IT maachen"],c:1,ok:"Правильно! Ech hunn Erfarung mat... = У меня есть опыт в...",no:"Нет. Опыт = Erfarung. Ech hunn Erfarung mat IT",exp:"hunn = иметь. Erfarung = опыт. mat = с/в. Очень полезная фраза для собеседования!"}
+ ]
+},
+{id:22,title:"Beim Dokter detailléiert",icon:"🏥",level:"A2",ru_title:"У врача — подробно",type:"normal",
+ words:[
+  {cz:"Mir wéit de Bauch / d'Kni",ru:"Болит живот / колено",ph:"[Мир вэйт дэ Баух / дэ Кни]",ic:"🤕"},
+  {cz:"Ech hunn Féiwer.",ru:"У меня жар.",ph:"[Эх хун Фэйвэр]",ic:"🌡️"},
+  {cz:"Ech sinn allergësch géint...",ru:"У меня аллергия на...",ph:"[Эх зин алэр-гэш гэйнт]",ic:"🤧"},
+  {cz:"Schreiwen dir mir e Rezept?",ru:"Выпишете мне рецепт?",ph:"[Шрэйвэн дир мир э Рэцэпт?]",ic:"📋"},
+  {cz:"Wéi laang sinn ech krank?",ru:"Как долго я болен?",ph:"[Вэй лаанг зин эх кранк?]",ic:"⏰"},
+  {cz:"D'Krankekeess deckt dat of.",ru:"Страховая касса это покрывает.",ph:"[Дэ Кранкэ-кэс дэкт дат аф]",ic:"✅"},
+  {cz:"Kënnt dir mech ënnersichen?",ru:"Можете меня осмотреть?",ph:"[Кэнт дир мэх э́нэр-зихэн?]",ic:"🩺"},
+  {cz:"Gitt op Besserung!",ru:"Поправляйтесь!",ph:"[Гит оп Бэсэрунг!]",ic:"💊"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Gudde Moien! Wéi kann ech Iech hëllefen?",ph:"",r:"Доброе утро! Чем могу помочь?"},
+  {w:"A",n:"Andrey",t:"Gudde Moien, Dokter. Mir wéit ganz schlecht de Kapp zanter dräi Deeg.",ph:"[Мир вэйт ганц шлэхт дэ Кап зантэр дрэй Дэх]",r:"Доброе утро, доктор. У меня сильно болит голова уже три дня."},
+  {w:"L",n:"Léon",t:"Hutt dir och Féiwer oder Schwindel?",ph:"[Хут дир ох Фэйвэр одэр Швиндэль?]",r:"У вас также жар или головокружение?"},
+  {w:"A",n:"Andrey",t:"Bëssen Féiwer, jo. An ech sinn allergësch géint Penicillin — dat ass wichteg.",ph:"[Бэшэн Фэйвэр, йо. Ан эх зин алэр-гэш гэйнт Пэни-цилин]",r:"Немного жар, да. И у меня аллергия на пенициллин — это важно."},
+  {w:"L",n:"Léon",t:"Merci fir dës wichteg Informatioun. Ech schreiwen Iech e Rezept. D'Krankekeess deckt dat of.",ph:"[Мэрси фир дэс ви́xtэх Информацьон]",r:"Спасибо за эту важную информацию. Выпишу вам рецепт. Страховая касса это покрывает."},
+  {w:"A",n:"Andrey",t:"Super. Kann ech nächste Mount erëm kommen fir eng Kontroll?",ph:"[Зупэр. Кан эх нэхстэн Мунт эрэм комэн фир энг Контроль?]",r:"Отлично. Могу я прийти в следующем месяце на контроль?"},
+  {w:"L",n:"Léon",t:"Natierlech. Gitt op Besserung, Andrey!",ph:"[Нату́рлэх. Гит оп Бэсэрунг, Андрэй!]",r:"Конечно. Поправляйтесь, Андрей!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, hues du de Medezinleescht hei schonn erausgefaasst?",ph:"",r:"Джон, ты уже разобрался с медициной здесь?"},
+  {w:"J",n:"John",t:"Jo! Ech sinn beim Médecin Généraliste ageschriwwen. Wann ech ee brauchen, ruffs ech un a kommen dee selwechten Dag. Et ass vill besser wéi an England!",ph:"",r:"Да! Зарегистрирован у участкового врача. Когда нужно — звоню и прихожу в тот же день. Намного лучше чем в Англии!"}
+ ],
+ ex:[
+  {q:"Как сообщить об аллергии на пенициллин?",o:["Ech hunn Féiwer","Ech sinn allergësch géint Penicillin","Mir wéit de Kapp","Ech brauche Penicillin"],c:1,ok:"Верно! Ech sinn allergësch géint Penicillin = У меня аллергия на пенициллин",no:"Нет. Аллергия на = allergësch géint. Очень важная медицинская фраза!",exp:"allergësch = аллергичный. géint = против/на. Запомните эту фразу — она может быть жизненно важной!"},
+  {q:"Что означает «Gitt op Besserung»?",o:["Возвращайтесь снова","Поправляйтесь","Будьте осторожны","Принимайте лекарство"],c:1,ok:"Правильно! Gitt op Besserung! = Поправляйтесь!",no:"Нет. Poправляйтесь = Gitt op Besserung! [Гит оп Бэсэрунг]",exp:"Besserung = улучшение. Gitt op = идите к. Дословно: «Идите к улучшению!» — поэтичное выражение."}
+ ]
+},
+{id:23,title:"Um Gemengamt",icon:"🏛️",level:"A2",ru_title:"В государственном органе",type:"normal",
+ words:[
+  {cz:"d'Gemeng",ru:"муниципалитет/коммуна",ph:"[дэ Гэмэнг]",ic:"🏛️"},
+  {cz:"d'Residence umellen",ru:"зарегистрировать проживание",ph:"[дэ Рэзи-дэнс умэлэн]",ic:"📋"},
+  {cz:"de Passeport / d'Identitéitskaard",ru:"паспорт / удостоверение",ph:"[дэ Пасэпорт / Идентитэйтс-карт]",ic:"📄"},
+  {cz:"Wann ech gelift, e Formulaire ausfëllen",ru:"Заполнить анкету, пожалуйста",ph:"[э Форму-лэр аус-фэлэн]",ic:"✏️"},
+  {cz:"Ech brauch eng Becheinegung.",ru:"Мне нужна справка.",ph:"[Эх браух энг Бэшэй-нэгунг]",ic:"📜"},
+  {cz:"Wéini ass dat fäerdeg?",ru:"Когда это будет готово?",ph:"[Вэйни ас дат фэрдэх?]",ic:"⏰"},
+  {cz:"D'Waartszäit ass...",ru:"Время ожидания...",ph:"[Дэ Варт-цэйт ас]",ic:"⏱️"},
+  {cz:"Online Rendez-vous huelen",ru:"Записаться онлайн",ph:"[Онлайн Рандэ-ву хуэлэн]",ic:"💻"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Gudde Moien, wéi kann ech Iech hëllefen?",ph:"",r:"Доброе утро, чем могу помочь?"},
+  {w:"A",n:"Andrey",t:"Gudde Moien. Ech wëll meng Adress ëmschreiwen. Ech sinn grécklingt.",ph:"[Эх вэл мэнг Адрэс э́мшрэйвэн]",r:"Доброе утро. Я хочу перерегистрировать свой адрес. Я переехал."},
+  {w:"L",n:"Léon",t:"Kënnt dir Äre Passeport an eng Koprouw vum neie Loyer-Kontrakt weisen?",ph:"[Кэнт дир Эрэн Пасэпорт ан энг Копру вум Нэйэн Луайэ-Контракт вэйзэн?]",r:"Можете показать ваш паспорт и копию нового договора аренды?"},
+  {w:"A",n:"Andrey",t:"Jo, hei sinn d'Documenter. Brauchen ech nach eppes ausfëllen?",ph:"[Йо, хэй зин дэ Докумэнтэр]",r:"Да, вот документы. Нужно ещё что-то заполнить?"},
+  {w:"L",n:"Léon",t:"Jo, fëllt dëse Formulaire aus, wannechgelift. Dat dauert nëmmen eng Minutt.",ph:"[Йо, фэлт дэзэ Формулэр аус, ван-эх-гэ-лифт]",r:"Да, заполните эту анкету, пожалуйста. Это займёт только минуту."},
+  {w:"A",n:"Andrey",t:"Merci. Wéini kréien ech d'Becheinegung?",ph:"[Вэйни крэйэн эх дэ Бэшэй-нэгунг?]",r:"Спасибо. Когда я получу справку?"},
+  {w:"L",n:"Léon",t:"Direkt, haut! Zu Lëtzebuerg geet dat séier.",ph:"[Дирэкт, хаут! Цу Лэцэбуэрг гэт дат зэйэр]",r:"Прямо сейчас, сегодня! В Люксембурге это делается быстро."}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wéi war deng Erfahrung um Gemengamt?",ph:"",r:"Джон, каким был твой опыт в муниципалитете?"},
+  {w:"J",n:"John",t:"Iwwerraschend einfach! Ech hat en Rendez-vous online gemaach an hunn net méi wéi 20 Minutten gewaart. D'Beamten si frëndlech a schwätzen Englesch wann néideg.",ph:"",r:"Удивительно просто! Записался онлайн и ждал не больше 20 минут. Чиновники дружелюбные и говорят по-английски если нужно."}
+ ],
+ ex:[
+  {q:"Что нужно принести при регистрации адреса?",o:["Только паспорт","Паспорт и копию договора аренды","Рабочий договор","Медицинскую справку"],c:1,ok:"Верно! Passeport + Koprouw vum Loyer-Kontrakt = паспорт + копия договора аренды",no:"Нет. Нужны паспорт И копия договора аренды",exp:"Кoprouw = копия. Loyer-Kontrakt = договор аренды. Loyer — от французского слова для аренды."},
+  {q:"Как быстро работает Gemeng в Люксембурге?",o:["Недели ожидания","Нужно приходить несколько раз","Можно сделать прямо в день обращения","Только по предварительной записи"],c:2,ok:"Правильно! В Люксембурге многие документы делаются в тот же день!",no:"Нет. В Люксембурге бюрократия работает быстро — часто в тот же день!",exp:"Это одно из преимуществ жизни в Люксембурге — эффективная государственная служба!"}
+ ]
+},
+{id:24,title:"Schachclub Tournoi",icon:"♟️",level:"A2",ru_title:"Шахматы: Турнир",type:"chess",
+ words:[
+  {cz:"den Tournoi",ru:"турнир",ph:"[дэн Турнуа]",ic:"🏆"},
+  {cz:"sech umellen fir den Tournoi",ru:"записаться на турнир",ph:"[зэх умэлэн фир дэн Турнуа]",ic:"✍️"},
+  {cz:"d'Umeldungsgebühr",ru:"регистрационный взнос",ph:"[дэ Умэлдунгс-гэбюр]",ic:"💵"},
+  {cz:"d'Partie / d'Ronnen",ru:"партия / раунды",ph:"[дэ Парти / дэ Ронэн]",ic:"♟️"},
+  {cz:"gewannen / verlieren / Remis",ru:"победить / проиграть / ничья",ph:"[гэва́нэн / фэрли́рэн / Рэ-ми]",ic:"🤝"},
+  {cz:"de Champion",ru:"чемпион",ph:"[дэ Шам-пьон]",ic:"🥇"},
+  {cz:"Ech hunn mäin Deel ginn.",ru:"Я дал всё что мог.",ph:"[Эх хун мэйн Дэйль гин]",ic:"💪"},
+  {cz:"Eng gutt Erfahrung!",ru:"Хороший опыт!",ph:"[Энг гут Эрфарунг!]",ic:"⭐"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey, hues du dech fir den Schach-Tournoi vum Club umgemellt?",ph:"[Хуэс ду дэх фир дэн Шах-Турнуа фум Клуб умэ-гэмэлт?]",r:"Андрей, ты записался на шахматный турнир клуба?"},
+  {w:"A",n:"Andrey",t:"Jo! Ech hunn d'Umeldungsgebühr bezuelt a kommen nächste Samschdeg.",ph:"[Йо! Эх хун дэ Умэлдунгс-гэбюр бэцуэлт]",r:"Да! Заплатил регистрационный взнос и приду в следующую субботу."},
+  {w:"L",n:"Léon",t:"Wéi vill Ronnen ginn et?",ph:"[Вэй фил Ронэн гин эт?]",r:"Сколько будет раундов?"},
+  {w:"A",n:"Andrey",t:"Siwen Ronnen. Ech wëll op d'mannst véier gewannen. Mäi Zil ass de Champion ze ginn!",ph:"[Зивэн Ронэн. Эх вэл оп дэ манст фэйр гэва́нэн]",r:"Семь раундов. Я хочу выиграть хотя бы четыре. Моя цель — стать чемпионом!"},
+  {w:"L",n:"Léon",t:"Fantastesch Ambition! Mä denk drun — et ass net nëmmen ze gewannen. Et ass och d'Leit kennenzeléieren an op Lëtzebuergesch ze schwätzen!",ph:"[Фанта́стэш Амбицьон!]",r:"Фантастическое стремление! Но помни — это не только победа. Это также знакомство с людьми и общение на люксембургском!"},
+  {w:"A",n:"Andrey",t:"Du hues Recht! Schach a Lëtzebuergesch zesummen — dat ass perfekt!",ph:"[Ду хуэс Рэхт! Шах а Лэцэбуэргэш цэза́мэн]",r:"Ты прав! Шахматы и люксембургский вместе — это идеально!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, hues du jeemools en Schach-Tournoi gespillt?",ph:"",r:"Джон, ты когда-нибудь играл в шахматном турнире?"},
+  {w:"J",n:"John",t:"Eemol! Ech hunn verluer, mä et war eng fantatsesch Erfarung. D'Atmosphär am Schachclub ass ganz international — de Schach verbënnt d'Leit iwwer all Grenzen.",ph:"",r:"Один раз! Я проиграл, но это был фантастический опыт. Атмосфера в шахматном клубе очень интернациональная — шахматы объединяют людей через все границы."}
+ ],
+ ex:[
+  {q:"Сколько раундов в турнире, на который записался Андрей?",o:["Пять","Шесть","Семь","Восемь"],c:2,ok:"Верно! Siwen Ronnen = семь раундов",no:"Нет. Siwen = семь. В турнире siwen Ronnen",exp:"siwen = 7 (как немецкое sieben). Ronnen = раунды (мн.ч. от Ronne)."},
+  {q:"Что, по мнению Léon, важно в турнире кроме победы?",o:["Призовые деньги","Знакомство с людьми и общение на люксембургском","Хорошие шахматы","Стать чемпионом"],c:1,ok:"Правильно! Léon напоминает: турнир = языковая практика + новые знакомства!",no:"Нет. Léon говорит о знакомстве с людьми и практике люксембургского",exp:"Шахматный клуб — отличное место для практики языка! Вы говорите о стратегии, делаете объявления, знакомитесь."}
+ ]
+},
+{id:25,title:"Ofschlossdialog A1 + F1 + Schach",icon:"🏆",level:"A1",ru_title:"Итоговый диалог A1 — F1 + Шахматы",type:"normal",
+ words:[
+  {cz:"Ech hunn vill geléiert!",ru:"Я многому научился!",ph:"[Эх хун фил гэ-лэйрт!]",ic:"📚"},
+  {cz:"Ech ka Lëtzebuergesch!",ru:"Я говорю люксембургский!",ph:"[Эх ка Лэцэбуэргэш!]",ic:"🗣️"},
+  {cz:"Bravo! Weider esou!",ru:"Браво! Так держать!",ph:"[Брáво! Вэйдэр эзоу!]",ic:"🏆"},
+  {cz:"Ech wëll de Sproochentest maachen!",ru:"Я хочу сдать языковой тест!",ph:"[Эх вэл дэ Шпрохэн-тэст махэн!]",ic:"📝"},
+  {cz:"Lëtzebuerg ass mäi Heem!",ru:"Люксембург — мой дом!",ph:"[Лэцэбуэрг ас мэй Хэм!]",ic:"🏠"},
+  {cz:"Merci fir alles!",ru:"Спасибо за всё!",ph:"[Мэрси фир а́лэс!]",ic:"🙏"},
+  {cz:"De Bloc A2 fänkt un!",ru:"Блок A2 начинается!",ph:"[Дэ Блок А2 фэнкт ун!]",ic:"🚀"},
+  {cz:"Moien! Bis geschwënn!",ru:"Привет! До скорого!",ph:"[Мо́йен! Бис гэшвэн!]",ic:"👋"}
+ ],
+ sd:[
+  {w:"L",n:"Léon",t:"Andrey! Haut ofschléisse mir de Bloc A1. 25 Lektioune! Bravo!",ph:"[Хаут оф-шлэйсэн мир дэ Блок А1. 25 Лэкцьонэ! Брáво!]",r:"Андрей! Сегодня завершаем блок A1. 25 уроков! Браво!"},
+  {w:"A",n:"Andrey",t:"Ech ka kaum et gleewen! Ech schwätzen Lëtzebuergesch! A mäi Liewe hei ass anescht ginn.",ph:"[Эх ка каум эт глэйвэн! Эх швэцэн Лэцэбуэргэш!]",r:"Я едва могу поверить! Я говорю по-люксембургски! И моя жизнь здесь изменилась."},
+  {w:"L",n:"Léon",t:"Du hues iwwer F1 geschwat, am Schachclub ageschwat, beim Dokter erkläert... alles op Lëtzebuergesch!",ph:"",r:"Ты говорил о F1, разговаривал в шахматном клубе, объяснял врачу... всё на люксембургском!"},
+  {w:"A",n:"Andrey",t:"Ech wëll elo de Sproochentest maachen an d'Lëtzebuerger Nationalitéit kréien!",ph:"[Эх вэл эло дэ Шпрохэн-тэст махэн ан дэ Лэцэбуэргэр Националитэйт крэйэн!]",r:"Я хочу теперь сдать языковой тест и получить люксембургское гражданство!"},
+  {w:"L",n:"Léon",t:"An du wäerts et kréien! Weider esou am Bloc A2, dann B1!",ph:"[Ан ду вэртс эт крэйэн! Вэйдэр эзоу ам Блок А2, дан Б1!]",r:"И ты его получишь! Так держать в блоке A2, потом B1!"},
+  {w:"A",n:"Andrey",t:"Merci fir alles, Léon! Lëtzebuerg ass mäi Heem! Moien! Bis geschwënn!",ph:"[Мэрси фир а́лэс, Леон! Лэцэбуэрг ас мэй Хэм!]",r:"Спасибо за всё, Léon! Люксембург — мой дом! До скорого!"}
+ ],
+ jd:[
+  {w:"L",n:"Léon",t:"John, wat géifs du Andrey roden?",ph:"",r:"Джон, что бы ты посоветовал Андрею?"},
+  {w:"J",n:"John",t:"Schwätz Lëtzebuergesch all Dag! Mat de Noperen, am Supermarché, am Schachclub, beim F1-kucken mat Frënn. D'Sprooch léiert een am beschten am Liewen — net nëmmen am Cours!",ph:"",r:"Говори по-люксембургски каждый день! С соседями, в супермаркете, в шахматном клубе, при просмотре F1 с друзьями. Язык лучше всего учишь в жизни — не только на курсах!"}
+ ],
+ ex:[
+  {q:"Чему Андрей научился за блок A1?",o:["Только базовым приветствиям","Языку + применял его в реальных ситуациях F1 и шахмат","Только грамматике","Только числам"],c:1,ok:"Правильно! Андрей выучил язык И применял его в реальных ситуациях!",no:"Нет. Андрей применял язык в кафе, у врача, в клубе, о F1 и шахматах!",exp:"Персонализированное обучение — самое эффективное! Когда учишь язык через свои интересы, он запоминается намного лучше."},
+  {q:"Что теперь хочет сделать Андрей?",o:["Вернуться в Россию","Сдать Sproochentest и получить гражданство","Стать учителем","Выучить ещё один язык"],c:1,ok:"Браво! Andrey wëll de Sproochentest maachen an d'Nationalitéit kréien!",no:"Нет. Андрей хочет сдать языковой тест и получить люксембургское гражданство!",exp:"Это и есть цель курса! 77 уроков → Sproochentest → люксембургское гражданство для Андрея!"}
+ ]
+}
+];
+
+// ══════════════════════════════════════════════
+// ЭКЗАМЕН — SPROOCHENTEST МОДЕЛЬ
+// ══════════════════════════════════════════════
+var EXAM_QUESTIONS = [
+{id:1,type:"listen",q:"Léon seet: «Moien! Wéi geet et?» Wat äntwerts du?",
+ hint:"Léon приветствует тебя и спрашивает как дела",
+ audio:"Moien! Wéi geet et?",
+ o:["Et geet mir gutt, merci!","Jo, ech sinn hei.","Äddi, Léon!","Ech sinn krank."],
+ c:0,
+ ok:"Parfait! Et geet mir gutt, merci! — стандартный ответ на приветствие",
+ no:"Нет. На «Wéi geet et?» отвечают: Et geet mir gutt, merci!",
+ exp:"Wéi geet et? = Как дела? Правильный ответ: Et geet mir gutt, merci! (У меня хорошо, спасибо!)"
+},
+{id:2,type:"vocab",q:"Как по-люксембургски «Спасибо»?",
+ hint:"Это слово из французского языка",
+ audio:null,
+ o:["Danke","Merci","Grazie","Shukran"],
+ c:1,
+ ok:"Verrékt! Merci — от французского. Люксембургский берёт слова из 3 языков!",
+ no:"Нет. Спасибо = Merci (как по-французски!)",
+ exp:"Merci пришло из французского. В люксембургском много французских слов!"
+},
+{id:3,type:"listen",q:"Léon geet an de Supermarché. Hien freet: «Wou ass d'Bréit?» Wat seet d'Verkeefer?",
+ hint:"Продавец отвечает где находится хлеб",
+ audio:"Wou ass d'Bréit?",
+ o:["D'Bréit ass do, an der zweeter Rëtsch.","Ech weess net.","Mir hunn keng Bréit.","D'Bréit ass deier."],
+ c:0,
+ ok:"Super! D'Bréit ass do, an der zweeter Rëtsch — типичный ответ в магазине",
+ no:"Нет. Продавец говорит где хлеб: D'Bréit ass do, an der zweeter Rëtsch",
+ exp:"Rëtsch = ряд/полка. zweeter = второй. Ответ: Хлеб там, во второй полке."
+},
+{id:4,type:"grammar",q:"Заполните пропуск: «Ech _____ fofzeg Joer al.»",
+ hint:"Андрею 50 лет. Какой глагол нужен?",
+ audio:null,
+ o:["hunn","sinn","bass","ginn"],
+ c:1,
+ ok:"Richteg! Ech sinn fofzeg Joer al = Мне пятьдесят лет",
+ no:"Нет. Возраст: Ech sinn... Joer al (глагол sinn = быть)",
+ exp:"sinn = быть. Для возраста: Ech sinn X Joer al. hunn = иметь (другой глагол)."
+},
+{id:5,type:"listen",q:"Den Transport zu Lëtzebuerg: wat ass richteg?",
+ hint:"Что особенного в транспорте Люксембурга?",
+ audio:"De Public Transport zu Lëtzebuerg ass gratis!",
+ o:["Et ass ganz deier","Et ass gratis fir jiddereen","Nëmmen de Bus ass gratis","Et ass nëmmen fir Studenten"],
+ c:1,
+ ok:"Excellent! Зато Люксембург — первая страна с бесплатным транспортом для всех!",
+ no:"Нет. De Public Transport zu Lëtzebuerg ass gratis — для всех!",
+ exp:"С 2020 года Люксембург — первая страна в мире с полностью бесплатным общественным транспортом!"
+},
+{id:6,type:"vocab",q:"Wie freet dir un enger Keess ze bezuelen? Wéi freet dir?",
+ hint:"Вы в ресторане и хотите заплатить",
+ audio:null,
+ o:["Wou ass d'Keess?","D'Rechnung, wann ech gelift!","Ech wëll bezuelen","Wat kost dat?"],
+ c:1,
+ ok:"Bravo! D'Rechnung, wann ech gelift = Счёт, пожалуйста — вежливо и правильно!",
+ no:"Нет. Попросить счёт = D'Rechnung, wann ech gelift!",
+ exp:"D'Rechnung = счёт. wann ech gelift = пожалуйста. Это стандартная фраза в ресторане!"
+},
+{id:7,type:"grammar",q:"Как спросить «Который час?» по-люксембургски?",
+ hint:"Нужно спросить о времени",
+ audio:null,
+ o:["Wéini ass et?","Wéivill Auer ass et?","Wat Zäit hutt dir?","Wou ass d'Auer?"],
+ c:1,
+ ok:"Super! Wéivill Auer ass et? = Который час?",
+ no:"Нет. Который час? = Wéivill Auer ass et?",
+ exp:"Auer = часы. Wéivill = сколько. Дословно: Сколько часов есть?"
+},
+{id:8,type:"listen",q:"Andrey ass bei der Gemeng. De Beamten freet: «Kënnt dir Äre Passeport weisen?» Wat seet Andrey?",
+ hint:"Андрей в муниципалитете. Что он отвечает?",
+ audio:"Kënnt dir Äre Passeport weisen?",
+ o:["Ech hunn kee Passeport.","Jo, hei ass mäi Passeport.","Ech weess net.","Muer, wannechgelift."],
+ c:1,
+ ok:"Richteg! Jo, hei ass mäi Passeport — вежливый и правильный ответ",
+ no:"Нет. Нужно показать паспорт: Jo, hei ass mäi Passeport.",
+ exp:"hei = вот/здесь. mäi = мой. Полный ответ: Да, вот мой паспорт."
+},
+{id:9,type:"vocab",q:"Wat ass «Sproochentest»?",
+ hint:"Это важно для получения гражданства",
+ audio:null,
+ o:["Тест по истории Люксембурга","Языковой экзамен для гражданства","Медицинский осмотр","Тест вождения"],
+ c:1,
+ ok:"Perfekt! Sproochentest = языковой экзамен, обязательный для гражданства Люксембурга",
+ no:"Нет. Sproochentest = языковой тест для получения люксембургского гражданства",
+ exp:"Sprooch = язык. Test = тест. Нужен уровень A2-B1 для получения гражданства!"
+},
+{id:10,type:"listen",q:"Andrey seet: «Mir wéit de Kapp zanter dräi Deeg.» Wou geet hien?",
+ hint:"У Андрея болит голова три дня. Куда он идёт?",
+ audio:"Mir wéit de Kapp zanter dräi Deeg.",
+ o:["An de Supermarché","Bei de Schachclub","Bei de Dokter","An d'Apdikt"],
+ c:2,
+ ok:"Bravo! Wann de Kapp wéit, gees du bei de Dokter!",
+ no:"Нет. При головной боли идут zu engem Dokter (к врачу)",
+ exp:"Mir wéit de Kapp = У меня болит голова. dräi Deeg = три дня. Bei de Dokter = к врачу!"
+}
+];
+
+// ══════════════════════════════════════════════
+// СОСТОЯНИЕ
+// ══════════════════════════════════════════════
+var curLesson = null;
+var curSpeed = 1.0;
+var done = [];
+var examStats = {passed: 0, failed: 0};
+try { done = JSON.parse(localStorage.getItem('lux77') || '[]'); } catch(e){}
+try { examStats = JSON.parse(localStorage.getItem('lux77exam') || '{"passed":0,"failed":0}'); } catch(e){}
+
+// ══════════════════════════════════════════════
+// НАВИГАЦИЯ
+// ══════════════════════════════════════════════
+function goHome() {
+  showScr('home'); setNav('nb-home');
+  document.getElementById('tb-name').textContent = 'Lëtzebuergesch Snell!';
+  document.getElementById('tb-sub').textContent = 'LUXEMBURGSKIJ \u00b7 77 UROKOV';
+  updateExamMini();
+}
+function goProgress() { buildProgress(); showScr('progress'); setNav('nb-progress'); }
+function goExam() { buildExam(); showScr('exam'); setNav('nb-exam'); }
+function goTab(n) {
+  if (!curLesson) { openLesson(1); return; }
+  showScr(n); setNav('nb-' + n);
+}
+function showScr(id) {
+  document.querySelectorAll('.scr').forEach(function(s){ s.classList.remove('on'); });
+  document.getElementById('scr-' + id).classList.add('on');
+  document.getElementById('main').scrollTop = 0;
+}
+function setNav(id) {
+  document.querySelectorAll('.nvi').forEach(function(b){ b.classList.remove('on'); });
+  var el = document.getElementById(id);
+  if (el) el.classList.add('on');
+}
+
+// ══════════════════════════════════════════════
+// ГЛАВНАЯ
+// ══════════════════════════════════════════════
+function buildHome() {
+  var g = document.getElementById('lesson-grid');
+  var h = '';
+  for (var i = 0; i < L.length; i++) {
+    var l = L[i];
+    var isDone = done.indexOf(l.id) >= 0;
+    var isCur = !isDone && (i === 0 || done.indexOf(L[i-1].id) >= 0);
+    var cls = isDone ? 'done' : isCur ? 'cur' : '';
+    if (l.type === 'f1') cls += ' f1';
+    if (l.type === 'chess') cls += ' chess';
+    var ic = isDone ? '\u2705' : l.icon;
+    var tag = '';
+    if (l.type === 'f1') tag = '<span class="lcard-tag tag-f1">&#x1F3CE;&#xFE0F; F1</span>';
+    if (l.type === 'chess') tag = '<span class="lcard-tag tag-chess">&#x265F;&#xFE0F; \u0428\u0430\u0445\u043c\u0430\u0442\u044b</span>';
+    h += '<button class="lcard ' + cls + '" onclick="openLesson(' + l.id + ')">'
+      + '<div class="lcard-ic">' + ic + '</div>'
+      + '<div class="lcard-num">\u0423\u0440\u043e\u043a ' + l.id + ' &middot; ' + l.level + '</div>'
+      + '<div class="lcard-name">' + l.ru_title + '</div>'
+      + tag
+      + '</button>';
+  }
+  g.innerHTML = h;
+  updateExamMini();
+}
+
+function updateExamMini() {
+  var ep = document.getElementById('exam-passed-mini');
+  var ef = document.getElementById('exam-failed-mini');
+  if (ep) ep.textContent = examStats.passed;
+  if (ef) ef.textContent = examStats.failed;
+}
+
+// ══════════════════════════════════════════════
+// ОТКРЫТЬ УРОК
+// ══════════════════════════════════════════════
+function openLesson(id) {
+  curLesson = null;
+  for (var i = 0; i < L.length; i++) {
+    if (L[i].id === id) { curLesson = L[i]; break; }
+  }
+  if (!curLesson) return;
+  document.getElementById('tb-name').textContent = curLesson.icon + ' ' + curLesson.ru_title;
+  document.getElementById('tb-sub').textContent = '\u0423\u0440\u043e\u043a ' + id + ' \u0438\u0437 25 \u00b7 L\u00caTZEBUERGESCH SNELL';
+  buildLesson(); buildWords(); buildExercises();
+  showScr('lesson'); setNav('nb-lesson');
+}
+
+// ══════════════════════════════════════════════
+// ДИАЛОГ
+// ══════════════════════════════════════════════
+function buildLesson() {
+  var l = curLesson;
+  var pct = Math.round(done.length / L.length * 100);
+  var badgeCls = l.level === 'A1' ? 'badge-a1' : l.level === 'A2' ? 'badge-a2' : 'badge-b1';
+  var h = '<div class="lesson-hdr">'
+    + '<div><div class="lesson-title">' + l.icon + ' ' + l.ru_title + '</div>'
+    + '<div class="lesson-sub">\u0423\u0440\u043e\u043a ' + l.id + ' \u0438\u0437 25 &mdash; OPAT 25! &reg;</div></div>'
+    + '<span class="badge ' + badgeCls + '">' + l.level + '</span></div>'
+    + '<div class="pbar"><div class="pfill" style="width:' + pct + '%"></div></div>';
+  if (l.type === 'f1') {
+    h += '<div class="tip" style="background:#FFF8EC;border-color:#F5C842;color:#8B5A00"><span>&#x1F3CE;&#xFE0F;</span><span>\u0421\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u0443\u0440\u043e\u043a Formula 1 \u2014 \u0434\u043b\u044f \u0410\u043d\u0434\u0440\u0435\u044f!</span></div>';
+  } else if (l.type === 'chess') {
+    h += '<div class="tip pu"><span>&#x265F;&#xFE0F;</span><span>\u0421\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u0443\u0440\u043e\u043a \u0428\u0430\u0445\u043c\u0430\u0442\u044b \u2014 \u0434\u043b\u044f \u0410\u043d\u0434\u0440\u0435\u044f!</span></div>';
+  } else {
+    h += '<div class="tip"><span>&#x26A1;</span><span>&#x25B6; \u2014 \u0441\u043b\u0443\u0448\u0430\u0439\u0442\u0435 L\u00e9on. &#x1F3A4; \u2014 \u0433\u043e\u0432\u043e\u0440\u0438\u0442\u0435 \u0441\u0430\u043c\u0438! 0.7&times; = \u043c\u0435\u0434\u043b\u0435\u043d\u043d\u0435\u0435.</span></div>';
+  }
+  h += '<div class="dtabs">'
+    + '<button class="dtab on" id="dtA" onclick="switchDlg(\'a\')">\ud83d\udc64 Andrey</button>'
+    + '<button class="dtab pu" id="dtJ" onclick="switchDlg(\'j\')">\ud83d\udc68 John A2</button>'
+    + '</div>'
+    + '<div id="dlg-a">' + buildDlg(l.sd, 'A') + '</div>'
+    + '<div id="dlg-j" style="display:none">'
+    + '<div class="tip pu"><span>\ud83d\udc68</span><span>John (A2) \u2014 \u0432\u0430\u0448\u0430 \u0446\u0435\u043b\u044c \u0447\u0435\u0440\u0435\u0437 6 \u043c\u0435\u0441\u044f\u0446\u0435\u0432!</span></div>'
+    + buildDlg(l.jd, 'J')
+    + '</div>'
+    + '<button class="done-btn" onclick="markDone(' + l.id + ')">\u2705 \u0423\u0440\u043e\u043a \u043f\u0440\u043e\u0439\u0434\u0435\u043d! \u0414\u0430\u043b\u0435\u0435 &rarr;</button>';
+  document.getElementById('lesson-content').innerHTML = h;
+}
+
+function buildDlg(dialogs, type) {
+  var h = '';
+  for (var i = 0; i < dialogs.length; i++) {
+    var d = dialogs[i];
+    var isL = d.w === 'L';
+    var isA = d.w === 'A';
+    var isJ = d.w === 'J';
+    var txt = d.t.replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+    var rid = 'r' + type + '_' + i;
+    var lbl = isL ? ' &mdash; \u0443\u0447\u0438\u0442\u0435\u043b\u044c' : isJ ? ' (A2)' : ' &mdash; \u0432\u044b!';
+    h += '<div class="arow">'
+      + '<div class="ava ' + d.w + '" onclick="spk(\'' + txt + '\',' + (isL ? 'curSpeed' : '0.95') + ')">' + d.w + '</div>'
+      + '<div class="bub ' + d.w + '">'
+      + '<div class="bwho">' + d.n + lbl + '</div>'
+      + '<div class="bcz">' + d.t + '</div>'
+      + (d.ph ? '<div class="bph">' + d.ph + '</div>' : '')
+      + '<div class="bru">' + d.r + '</div>'
+      + '<div class="crow">'
+      + '<button class="pb' + (isJ ? ' pu' : '') + '" onclick="spk(\'' + txt + '\',' + (isL ? 'curSpeed' : '0.95') + ')">&#x25B6;</button>';
+    if (isL) {
+      h += '<div class="sps" id="sps_' + rid + '">'
+        + '<button class="sp" onclick="setSpd(0.7,this,\'sps_' + rid + '\')">0.7&times;</button>'
+        + '<button class="sp on" onclick="setSpd(1.0,this,\'sps_' + rid + '\')">1&times;</button>'
+        + '</div>'
+        + '<button class="micbtn mic-rep" id="mic_L' + rid + '" onclick="startRec(\'mic_L' + rid + '\',\'' + txt + '\',\'L' + rid + '\')">&#x1F3A4; \u0413\u043e\u0432\u043e\u0440\u044e!</button>'
+        + '<div class="splayer g-pl" id="pl_L' + rid + '">'
+        + '<div class="splayer-lbl" style="color:var(--gd)">&#x1F3A7; \u041c\u043e\u0451 \u043f\u043e\u0432\u0442\u043e\u0440\u0435\u043d\u0438\u0435:</div>'
+        + '<div class="spl-row"><button class="spl-play" style="background:var(--g)" onclick="playRec(\'L' + rid + '\')">&#x25B6;</button>'
+        + '<div class="spl-wave" style="background:var(--gl)" id="wv_L' + rid + '">'
+        + '<div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div>'
+        + '<div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div>'
+        + '<div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div>'
+        + '<div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div><div class="sw" style="background:var(--g)"></div>'
+        + '</div></div>'
+        + '<div class="cmp-row"><button class="cmp-l" onclick="spk(\'' + txt + '\',curSpeed)">&#x25B6; L\u00e9on</button>'
+        + '<button class="cmp-me" style="border-color:var(--g);color:var(--gd);background:var(--gl)" onclick="playRec(\'L' + rid + '\')">&#x25B6; \u042f</button>'
+        + '<span class="cmp-hint">\u0421\u0440\u0430\u0432\u043d\u0438\u0442\u0435!</span></div></div>';
+    }
+    if (isA || isJ) {
+      var mc = isJ ? 'micbtn pu-mic' : 'micbtn';
+      var pc = isJ ? 'splayer pu-pl' : 'splayer';
+      h += '<button class="' + mc + '" id="mic_' + rid + '" onclick="startRec(\'mic_' + rid + '\',\'' + txt + '\',\'' + rid + '\')">&#x1F3A4; \u0413\u043e\u0432\u043e\u0440\u044e!</button>'
+        + '<div class="' + pc + '" id="pl_' + rid + '">'
+        + '<div class="splayer-lbl">&#x1F3A7; \u041c\u043e\u0451 \u043f\u0440\u043e\u0438\u0437\u043d\u043e\u0448\u0435\u043d\u0438\u0435:</div>'
+        + '<div class="spl-row"><button class="spl-play" onclick="playRec(\'' + rid + '\')">&#x25B6;</button>'
+        + '<div class="spl-wave" id="wv_' + rid + '">'
+        + '<div class="sw"></div><div class="sw"></div><div class="sw"></div>'
+        + '<div class="sw"></div><div class="sw"></div><div class="sw"></div>'
+        + '<div class="sw"></div><div class="sw"></div><div class="sw"></div>'
+        + '<div class="sw"></div><div class="sw"></div><div class="sw"></div>'
+        + '</div></div>'
+        + '<div class="cmp-row"><button class="cmp-l" onclick="spk(\'' + txt + '\',curSpeed)">&#x25B6; L\u00e9on</button>'
+        + '<button class="cmp-me' + (isJ ? ' pu' : '') + '" onclick="playRec(\'' + rid + '\')">&#x25B6; \u042f</button>'
+        + '<span class="cmp-hint">\u0421\u0440\u0430\u0432\u043d\u0438\u0442\u0435!</span></div></div>';
+    }
+    h += '</div></div></div>';
+  }
+  return h;
+}
+
+function switchDlg(who) {
+  document.getElementById('dlg-a').style.display = who === 'a' ? 'block' : 'none';
+  document.getElementById('dlg-j').style.display = who === 'j' ? 'block' : 'none';
+  document.getElementById('dtA').className = 'dtab' + (who === 'a' ? ' on' : '');
+  document.getElementById('dtJ').className = 'dtab pu' + (who === 'j' ? ' on' : '');
+}
+
+// ══════════════════════════════════════════════
+// СЛОВА
+// ══════════════════════════════════════════════
+function buildWords() {
+  var l = curLesson;
+  document.getElementById('words-title').textContent = '\u0421\u043b\u043e\u0432\u0430 \u2014 ' + l.ru_title;
+  var h = '';
+  for (var i = 0; i < l.words.length; i++) {
+    var w = l.words[i];
+    var txt = w.cz.replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+    h += '<button class="wcard" onclick="spk(\'' + txt + '\',0.8)">'
+      + '<div class="wic">' + w.ic + '</div>'
+      + '<div class="wcz">' + w.cz + '</div>'
+      + '<div class="wru">' + w.ru + '</div>'
+      + '<div class="wph">' + w.ph + '</div>'
+      + '</button>';
+  }
+  document.getElementById('words-grid').innerHTML = h;
+}
+
+// ══════════════════════════════════════════════
+// ЗАДАНИЯ
+// ══════════════════════════════════════════════
+function buildExercises() {
+  var l = curLesson;
+  var h = '';
+  for (var i = 0; i < l.ex.length; i++) {
+    var ex = l.ex[i];
+    h += '<div class="excard">'
+      + '<div class="exnum">\u0417\u0430\u0434\u0430\u043d\u0438\u0435 ' + (i+1) + ' \u0438\u0437 ' + l.ex.length + '</div>'
+      + '<div class="exq">' + ex.q + '</div>'
+      + '<div class="opts" id="opts' + l.id + '_' + i + '">';
+    for (var j = 0; j < ex.o.length; j++) {
+      var ot = ex.o[j].replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+      h += '<button class="opt" onclick="chk(' + l.id + ',' + i + ',' + j + ',' + ex.c + ',\'' + ot + '\')">' + ex.o[j] + '</button>';
+    }
+    h += '</div><div class="fb" id="fb' + l.id + '_' + i + '"></div></div>';
+  }
+  document.getElementById('ex-content').innerHTML = h;
+}
+
+function chk(lid, ei, oi, correct, txt) {
+  var opts = document.getElementById('opts' + lid + '_' + ei);
+  if (!opts) return;
+  var btns = opts.querySelectorAll('.opt');
+  for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+  btns[oi].classList.add(oi === correct ? 'ok' : 'no');
+  var fb = document.getElementById('fb' + lid + '_' + ei);
+  fb.style.display = 'block';
+  var ex = curLesson.ex[ei];
+  if (oi === correct) {
+    fb.className = 'fb ok';
+    fb.innerHTML = '\u2705 ' + ex.ok + (ex.exp ? '<div class="fb-explain">\ud83d\udca1 ' + ex.exp + '</div>' : '');
+    spk(txt, 0.9);
+  } else {
+    fb.className = 'fb no';
+    fb.innerHTML = '\u274c ' + ex.no + (ex.exp ? '<div class="fb-explain">\ud83d\udca1 ' + ex.exp + '</div>' : '');
+  }
+}
+
+// ══════════════════════════════════════════════
+// ЭКЗАМЕН — SPROOCHENTEST
+// ══════════════════════════════════════════════
+var examAnswers = [];
+var examStarted = false;
+
+function buildExam() {
+  examAnswers = [];
+  examStarted = true;
+  var h = '<div class="exam-hdr">'
+    + '<div class="exam-hdr-t">&#x1F4DD; \u041c\u043e\u0434\u0435\u043b\u044c\u043d\u044b\u0439 \u044d\u043a\u0437\u0430\u043c\u0435\u043d — Sproochentest</div>'
+    + '<div class="exam-hdr-d">10 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u00b7 \u0410\u0443\u0434\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0438 \u043b\u0435\u043a\u0441\u0438\u043a\u0430 \u00b7 \u0420\u0430\u0437\u0431\u043e\u0440 \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043e\u0442\u0432\u0435\u0442\u0430</div>'
+    + '</div>'
+    + '<div class="exam-stats">'
+    + '<div class="exam-stat"><div class="exam-stat-n" style="color:var(--g)">' + examStats.passed + '</div><div class="exam-stat-l">\u0421\u0434\u0430\u043d\u043e &#x2705;</div></div>'
+    + '<div class="exam-stat"><div class="exam-stat-n" style="color:var(--or)">' + examStats.failed + '</div><div class="exam-stat-l">\u0417\u0430\u0432\u0430\u043b\u0435\u043d\u043e &#x274C;</div></div>'
+    + '<div class="exam-stat"><div class="exam-stat-n" style="color:var(--bl);font-size:16px">'
+    + (examStats.passed + examStats.failed > 0 ? Math.round(examStats.passed/(examStats.passed+examStats.failed)*100) + '%' : '&mdash;')
+    + '</div><div class="exam-stat-l">\u0423\u0441\u043f\u0435\u0445</div></div>'
+    + '</div>';
+
+  for (var i = 0; i < EXAM_QUESTIONS.length; i++) {
+    var q = EXAM_QUESTIONS[i];
+    h += '<div class="exam-q" id="eq_' + q.id + '">'
+      + '<div class="exam-q-num">\u0412\u043e\u043f\u0440\u043e\u0441 ' + q.id + ' \u0438\u0437 ' + EXAM_QUESTIONS.length + ' &mdash; '
+      + (q.type === 'listen' ? '&#x1F3A7; \u041f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u043d\u0430 \u0441\u043b\u0443\u0445' : q.type === 'grammar' ? '&#x1F4DD; \u0413\u0440\u0430\u043c\u043c\u0430\u0442\u0438\u043a\u0430' : '&#x1F4D6; \u041b\u0435\u043a\u0441\u0438\u043a\u0430')
+      + '</div>';
+    if (q.audio) {
+      var atxt = q.audio.replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+      h += '<div class="exam-q-audio">'
+        + '<button onclick="spk(\'' + atxt + '\',0.8)" style="width:36px;height:36px;border-radius:50%;background:var(--bl);border:none;color:#fff;font-size:16px;cursor:pointer">&#x25B6;</button>'
+        + '<span style="font-size:13px;color:var(--bl);margin-left:4px">\u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0447\u0442\u043e\u0431\u044b \u0443\u0441\u043b\u044b\u0448\u0430\u0442\u044c</span>'
+        + '</div>';
+    }
+    h += '<div class="exam-q-text">' + q.q + '</div>'
+      + '<div style="font-size:12px;color:var(--txt2);margin-bottom:10px;font-style:italic">&#x1F4A1; ' + q.hint + '</div>'
+      + '<div class="opts" id="eopts_' + q.id + '">';
+    for (var j = 0; j < q.o.length; j++) {
+      var ot = q.o[j].replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+      h += '<button class="opt" onclick="examChk(' + q.id + ',' + j + ',' + q.c + ',\'' + ot + '\')">' + q.o[j] + '</button>';
+    }
+    h += '</div><div class="fb" id="efb_' + q.id + '"></div></div>';
+  }
+  h += '<div id="exam-submit-area" style="display:none">'
+    + '<button onclick="showExamResult()" style="width:100%;padding:14px;background:var(--bl);color:#fff;border:none;border-radius:var(--r);font-size:16px;font-weight:700;cursor:pointer;margin-top:10px">'
+    + '&#x1F4CA; \u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b</button></div>'
+    + '<div id="exam-result-area"></div>';
+  document.getElementById('exam-content').innerHTML = h;
+}
+
+function examChk(qid, oi, correct, txt) {
+  var opts = document.getElementById('eopts_' + qid);
+  if (!opts) return;
+  var btns = opts.querySelectorAll('.opt');
+  // Already answered?
+  if (btns[0].disabled) return;
+  for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+  var isOk = (oi === correct);
+  btns[oi].classList.add(isOk ? 'ok' : 'no');
+  if (!isOk) btns[correct].classList.add('ok');
+  var fb = document.getElementById('efb_' + qid);
+  fb.style.display = 'block';
+  var q = null;
+  for (var i = 0; i < EXAM_QUESTIONS.length; i++) {
+    if (EXAM_QUESTIONS[i].id === qid) { q = EXAM_QUESTIONS[i]; break; }
+  }
+  if (q) {
+    if (isOk) {
+      fb.className = 'fb ok';
+      fb.innerHTML = '\u2705 ' + q.ok + (q.exp ? '<div class="fb-explain">\ud83d\udca1 ' + q.exp + '</div>' : '');
+      spk(txt, 0.9);
+    } else {
+      fb.className = 'fb no';
+      fb.innerHTML = '\u274c ' + q.no + (q.exp ? '<div class="fb-explain">\ud83d\udca1 ' + q.exp + '</div>' : '');
+    }
+  }
+  examAnswers.push({qid: qid, correct: isOk});
+  // Show submit when all answered
+  if (examAnswers.length === EXAM_QUESTIONS.length) {
+    document.getElementById('exam-submit-area').style.display = 'block';
+    document.getElementById('main').scrollTop = 99999;
+  }
+}
+
+function showExamResult() {
+  var correct = 0;
+  for (var i = 0; i < examAnswers.length; i++) {
+    if (examAnswers[i].correct) correct++;
+  }
+  var total = EXAM_QUESTIONS.length;
+  var pct = Math.round(correct / total * 100);
+  var passed = pct >= 70;
+  if (passed) examStats.passed++;
+  else examStats.failed++;
+  try { localStorage.setItem('lux77exam', JSON.stringify(examStats)); } catch(e){}
+
+  var h = '<div class="exam-result ' + (passed ? 'pass' : 'fail') + '">'
+    + '<div class="exam-result-icon">' + (passed ? '\ud83c\udfc6' : '\ud83d\udcaa') + '</div>'
+    + '<div class="exam-result-t" style="color:' + (passed ? 'var(--gd)' : 'var(--or)') + '">'
+    + (passed ? '\u0421\u0434\u0430\u043d\u043e! Exzellent!' : '\u041d\u0435 \u0441\u0434\u0430\u043d\u043e. \u041d\u0435 \u0441\u0434\u0430\u0432\u0430\u0439\u0441\u044f!')
+    + '</div>'
+    + '<div class="exam-result-s">' + correct + ' \u0438\u0437 ' + total + ' \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0445 &mdash; ' + pct + '%</div>'
+    + '<div style="font-size:13px;color:var(--txt2);margin-top:8px">'
+    + (passed ? '\u041f\u043e\u0440\u043e\u0433 \u0434\u043b\u044f \u0437\u0430\u0447\u0451\u0442\u0430: 70%. \u0412\u044b \u0441\u043f\u0440\u0430\u0432\u0438\u043b\u0438\u0441\u044c!' : '\u041f\u043e\u0440\u043e\u0433 70%. \u041f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u0443\u0440\u043e\u043a\u0438 \u0438 \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437!')
+    + '</div>'
+    + '<div style="margin-top:10px;font-size:13px;color:var(--bl)">'
+    + '\u0421\u0434\u0430\u043d\u043e: ' + examStats.passed + ' &#x2705; &nbsp;&nbsp; \u0417\u0430\u0432\u0430\u043b\u0435\u043d\u043e: ' + examStats.failed + ' &#x274C;'
+    + '</div>'
+    + '</div>'
+    + '<button class="exam-retry" onclick="buildExam()">'
+    + (passed ? '\ud83d\udcdd \u0425\u043e\u0447\u0443 \u043f\u0440\u043e\u0439\u0442\u0438 \u0435\u0449\u0451 \u0440\u0430\u0437!' : '\ud83d\udcdd \u041f\u043e\u043f\u0440\u043e\u0431\u043e\u0432\u0430\u0442\u044c \u0435\u0449\u0451 \u0440\u0430\u0437!')
+    + '</button>';
+  document.getElementById('exam-result-area').innerHTML = h;
+  document.getElementById('exam-submit-area').style.display = 'none';
+  document.getElementById('main').scrollTop = 99999;
+  updateExamMini();
+}
+
+// ══════════════════════════════════════════════
+// ПРОГРЕСС
+// ══════════════════════════════════════════════
+function buildProgress() {
+  document.getElementById('p-l').textContent = done.length;
+  document.getElementById('p-w').textContent = done.length * 8;
+  var ep = document.getElementById('p-exam-pass');
+  var ef = document.getElementById('p-exam-fail');
+  var epct = document.getElementById('p-exam-pct');
+  if (ep) ep.textContent = examStats.passed;
+  if (ef) ef.textContent = examStats.failed;
+  if (epct) {
+    var total = examStats.passed + examStats.failed;
+    epct.textContent = total > 0 ? Math.round(examStats.passed/total*100) + '%' : '\u2014';
+  }
+  var h = '';
+  for (var i = 0; i < L.length; i++) {
+    var l = L[i];
+    var isDone = done.indexOf(l.id) >= 0;
+    var isCur = curLesson && curLesson.id === l.id;
+    var ic = isDone ? '\u2705' : l.icon;
+    var bdg = isDone
+      ? '<span class="pbdg bdg-ok">\u0413\u043e\u0442\u043e\u0432\u043e</span>'
+      : isCur ? '<span class="pbdg bdg-now">\u0421\u0435\u0439\u0447\u0430\u0441</span>'
+      : '<span class="pbdg bdg-lock">\u0421\u043a\u043e\u0440\u043e</span>';
+    h += '<div class="prow"><div class="prow-ic">' + ic + '</div>'
+      + '<div class="prow-nm">\u0423\u0440\u043e\u043a ' + l.id + ' &mdash; ' + l.ru_title + '</div>' + bdg + '</div>';
+  }
+  document.getElementById('prog-list').innerHTML = h;
+}
+
+// ══════════════════════════════════════════════
+// ЗАВЕРШИТЬ УРОК
+// ══════════════════════════════════════════════
+function markDone(id) {
+  if (done.indexOf(id) < 0) {
+    done.push(id);
+    try { localStorage.setItem('lux77', JSON.stringify(done)); } catch(e){}
+  }
+  buildHome();
+  var next = null;
+  for (var i = 0; i < L.length; i++) {
+    if (done.indexOf(L[i].id) < 0) { next = L[i]; break; }
+  }
+  if (next) {
+    if (confirm('\u0423\u0440\u043e\u043a ' + id + ' \u043f\u0440\u043e\u0439\u0434\u0435\u043d! \ud83c\udf89\n\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0443\u0440\u043e\u043a\u0443 ' + next.id + ' \u2014 ' + next.ru_title + '?')) {
+      openLesson(next.id);
+    } else goHome();
+  } else {
+    alert('\ud83c\udfc6 \u0421\u0434\u0430\u0442\u044c Sproochentest! \u0412\u0441\u0435 25 \u0443\u0440\u043e\u043a\u043e\u0432 \u043f\u0440\u043e\u0439\u0434\u0435\u043d\u044b!');
+    goExam();
+  }
+}
+
+// ══════════════════════════════════════════════
+// РЕЧЬ — de-DE голос
+// ══════════════════════════════════════════════
+function spk(text, rate) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  setTimeout(function() {
+    if (rate < 0.85) {
+      spkSlow(text, rate);
+    } else {
+      spkDirect(text, rate);
+    }
+  }, 80);
+}
+
+function spkDirect(text, rate) {
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'de-DE';
+  u.rate = rate || 1.0;
+  u.pitch = 1.0;
+  applyVoice(u);
+  window.speechSynthesis.speak(u);
+}
+
+function spkSlow(text, rate) {
+  var words = text.split(' ');
+  var chunks = [];
+  for (var i = 0; i < words.length; i += 2) {
+    var chunk = words.slice(i, Math.min(i + 2, words.length)).join(' ');
+    if (chunk) chunks.push(chunk);
+  }
+  var pauseMs = Math.round((1.0 - rate) * 1800);
+  var idx = 0;
+  function next() {
+    if (idx >= chunks.length) return;
+    var u = new SpeechSynthesisUtterance(chunks[idx]);
+    u.lang = 'de-DE';
+    u.rate = 0.85;
+    u.pitch = 1.0;
+    applyVoice(u);
+    u.onend = function() {
+      idx++;
+      if (idx < chunks.length) setTimeout(next, pauseMs);
+    };
+    window.speechSynthesis.speak(u);
+  }
+  next();
+}
+
+function applyVoice(utterance) {
+  var voices = window.speechSynthesis.getVoices();
+  for (var i = 0; i < voices.length; i++) {
+    if (voices[i].lang && voices[i].lang.indexOf('de') === 0) {
+      utterance.voice = voices[i]; return;
+    }
+  }
+}
+
+function setSpd(s, btn, gid) {
+  curSpeed = s;
+  var g = document.getElementById(gid);
+  if (!g) return;
+  g.querySelectorAll('.sp').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+}
+
+// ══════════════════════════════════════════════
+// ЗАПИСЬ ГОЛОСА
+// ══════════════════════════════════════════════
+var mRec = null, aChunks = {}, aURLs = {}, aRid = null;
+
+function startRec(btnId, phrase, rid) {
+  var btn = document.getElementById(btnId);
+  if (!btn) return;
+  if (mRec && mRec.state === 'recording') { mRec.stop(); return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { recFail(btnId); return; }
+  navigator.mediaDevices.getUserMedia({audio: true}).then(function(stream) {
+    aRid = rid; aChunks[rid] = [];
+    var opts = {};
+    if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported) {
+      if (MediaRecorder.isTypeSupported('audio/webm')) opts.mimeType = 'audio/webm';
+      else if (MediaRecorder.isTypeSupported('audio/ogg')) opts.mimeType = 'audio/ogg';
+    }
+    try { mRec = new MediaRecorder(stream, opts); } catch(e) { mRec = new MediaRecorder(stream); }
+    mRec.ondataavailable = function(e) { if (e.data && e.data.size > 0) aChunks[rid].push(e.data); };
+    mRec.onstop = function() {
+      stream.getTracks().forEach(function(t){ t.stop(); });
+      var blob = new Blob(aChunks[rid], {type: opts.mimeType || 'audio/webm'});
+      if (aURLs[rid]) try { URL.revokeObjectURL(aURLs[rid]); } catch(e){}
+      aURLs[rid] = URL.createObjectURL(blob);
+      var b = document.getElementById(btnId);
+      if (b) {
+        b.classList.remove('rec');
+        b.innerHTML = '\u2705 \u0413\u043e\u0442\u043e\u0432\u043e! \u0415\u0449\u0451 \u0440\u0430\u0437?';
+        setTimeout(function(){ if (b) b.innerHTML = '&#x1F3A4; \u0413\u043e\u0432\u043e\u0440\u044e!'; }, 3000);
+      }
+      showPl(rid); animW('wv_' + rid); aRid = null;
+    };
+    mRec.start(100);
+    btn.classList.add('rec');
+    btn.innerHTML = '<span class="rdot"></span> \u0421\u0442\u043e\u043f';
+    setTimeout(function(){ if (mRec && mRec.state === 'recording' && aRid === rid) mRec.stop(); }, 8000);
+  }).catch(function(){ recFail(btnId); });
+}
+
+function recFail(btnId) {
+  var btn = document.getElementById(btnId);
+  if (btn) {
+    btn.innerHTML = '\u26a0\ufe0f \u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u0435 \u043c\u0438\u043a\u0440\u043e\u0444\u043e\u043d';
+    setTimeout(function(){ if (btn) btn.innerHTML = '&#x1F3A4; \u0413\u043e\u0432\u043e\u0440\u044e!'; }, 3000);
+  }
+}
+
+function playRec(rid) {
+  var url = aURLs[rid];
+  if (!url) { alert('\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u0437\u0430\u043f\u0438\u0448\u0438\u0442\u0435 \u0433\u043e\u043b\u043e\u0441!'); return; }
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  new Audio(url).play().catch(function(){});
+  animW('wv_' + rid);
+}
+
+function showPl(rid) {
+  var pl = document.getElementById('pl_' + rid);
+  if (pl) pl.classList.add('show');
+  var plL = document.getElementById('pl_L' + rid);
+  if (plL) plL.classList.add('show');
+}
+
+function animW(wid) {
+  var w = document.getElementById(wid);
+  if (!w) return;
+  var bars = w.querySelectorAll('.sw'), t = 0;
+  var iv = setInterval(function() {
+    bars.forEach(function(b){ b.style.height = (15 + Math.random() * 70) + '%'; });
+    if (++t > 14) { clearInterval(iv); bars.forEach(function(b){ b.style.height = '25%'; }); }
+  }, 130);
+}
+
+// ══════════════════════════════════════════════
+// ГОЛОСОВОЙ МОДАЛ
+// ══════════════════════════════════════════════
+function detectPlatform() {
+  var ua = navigator.userAgent.toLowerCase();
+  if (/iphone|ipad|ipod/.test(ua)) return 'ios';
+  if (/android/.test(ua)) return 'android';
+  if (/win/.test(ua)) return 'win';
+  return 'other';
+}
+
+function checkVoiceAndShow() {
+  if (localStorage.getItem('lux77voice')) return;
+  setTimeout(function() {
+    var voices = window.speechSynthesis.getVoices();
+    var deVoice = null;
+    for (var i = 0; i < voices.length; i++) {
+      if (voices[i].lang && voices[i].lang.indexOf('de') === 0) { deVoice = voices[i]; break; }
+    }
+    var modal = document.getElementById('voice-modal');
+    modal.classList.add('show');
+    if (deVoice) {
+      document.getElementById('vm-ok').style.display = 'block';
+      document.getElementById('vm-voice-name').textContent = deVoice.name;
+    } else {
+      document.getElementById('vm-err').style.display = 'block';
+      var p = detectPlatform();
+      var el = document.getElementById('vm-' + p);
+      if (el) el.style.display = 'block';
+      else {
+        document.getElementById('vm-android').style.display = 'block';
+        document.getElementById('vm-ios').style.display = 'block';
+      }
+    }
+  }, 1500);
+}
+
+function closeVoiceModal() {
+  document.getElementById('voice-modal').classList.remove('show');
+  localStorage.setItem('lux77voice', '1');
+}
+
+// ══════════════════════════════════════════════
+// ИНИЦИАЛИЗАЦИЯ
+// ══════════════════════════════════════════════
+if (window.speechSynthesis) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
+}
+var hasDone = false;
+try { hasDone = JSON.parse(localStorage.getItem('lux77') || '[]').length > 0; } catch(e){}
+if (hasDone) { showScr('home'); setNav('nb-home'); }
+// init done
+if(false && _pendingNav==='home'||!_pendingNav){_goHome();}
+else if(_pendingNav==='exam'){_goExam();}
+else if(_pendingNav==='progress'){_goProgress();}
+else if(_pendingNav){_goTab(_pendingNav);}
+
+// ══════════════════════════════════════════════
+// ИНДИКАТОР ЗАГРУЗКИ
+// ══════════════════════════════════════════════
+function setReady() {
+  var bar = document.getElementById('load-bar');
+  var lamp = document.getElementById('load-lamp');
+  var text = document.getElementById('load-text');
+  var spinner = document.getElementById('load-spinner');
+  var main = document.getElementById('main');
+  if (!bar) return;
+  // Switch to green
+  bar.classList.add('ready');
+  var nav=document.getElementById('bottomnav');
+  if(nav){nav.style.opacity='1';nav.style.pointerEvents='auto';}
+  var spl=document.querySelector('.spl-btn');
+  if(spl){spl.style.opacity='1';spl.style.pointerEvents='auto';}
+  if (lamp) { lamp.classList.remove('yellow'); lamp.classList.add('green'); }
+  if (spinner) spinner.style.display = 'none';
+  if (text) text.textContent = '\u2705 \u0413\u043e\u0442\u043e\u0432\u043e! \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u043b\u044e\u0431\u0443\u044e \u043a\u043d\u043e\u043f\u043a\u0443';
+  // Hide bar after 2 seconds
+  setTimeout(function() {
+    if (bar) bar.classList.add('hidden');
+    if (main) main.classList.add('no-bar');
+  }, 2000);
+}
+
+buildHome();
+checkVoiceAndShow();
+setReady();
+</script>
+</body>
+</html>
