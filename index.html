@@ -22,7 +22,7 @@ body{font-family:-apple-system,Roboto,sans-serif;background:var(--bg);overflow:h
 #tb-tm-s{font-size:9px;color:rgba(255,255,255,.65)}
 
 /* BOTTOM NAV */
-#bottomnav{position:fixed;bottom:0;left:0;right:0;z-index:999;background:#fff;border-top:1px solid var(--bdr);display:flex;opacity:.5;pointer-events:none;transition:all .4s}
+#bottomnav{position:fixed;bottom:0;left:0;right:0;z-index:999;background:#fff;border-top:1px solid var(--bdr);display:flex}
 .nvi{flex:1;border:none;background:none;padding:10px 2px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .nvi-i{font-size:20px}.nvi-l{font-size:10px;font-weight:600;color:var(--txt2)}
 .nvi.on .nvi-l{color:var(--g)}.nvi.on .nvi-i{transform:scale(1.1)}
@@ -50,7 +50,7 @@ body{font-family:-apple-system,Roboto,sans-serif;background:var(--bg);overflow:h
 .spl-hobbies{background:var(--bll);border:1px solid #B5D4F4;border-radius:var(--r);padding:11px;margin-bottom:16px;width:100%}
 .spl-hobbies-t{font-size:13px;font-weight:700;color:var(--bl);margin-bottom:6px}
 .spl-hobby{font-size:13px;color:var(--txt);padding:3px 0}
-.spl-btn{width:100%;padding:15px;background:var(--g);color:#fff;border:none;border-radius:var(--r);font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 3px 14px rgba(196,40,44,.4);opacity:.5;pointer-events:none;transition:all .4s}
+.spl-btn{width:100%;padding:15px;background:var(--g);color:#fff;border:none;border-radius:var(--r);font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 3px 14px rgba(196,40,44,.4)}
 
 /* HOME */
 .home-hdr{background:var(--gl);border:1px solid #E8A0A2;border-radius:var(--r);padding:13px;margin-bottom:13px}
@@ -212,51 +212,7 @@ body{font-family:-apple-system,Roboto,sans-serif;background:var(--bg);overflow:h
 
 .scr-title{font-size:18px;font-weight:700;color:var(--txt);margin-bottom:3px}
 .scr-sub{font-size:13px;color:var(--txt2);margin-bottom:11px}
-
-/* LOADING INDICATOR */
-#load-bar{position:fixed;top:58px;left:0;right:0;z-index:998;background:#FFF8EC;border-bottom:2px solid #F5C842;padding:6px 14px;display:flex;align-items:center;gap:10px;transition:all .4s}
-#load-bar.ready{background:#E1F5EE;border-bottom-color:#1D9E75}
-#load-bar.hidden{opacity:0;pointer-events:none;height:0;padding:0;border:none}
-.load-lamp{width:14px;height:14px;border-radius:50%;flex-shrink:0;transition:all .4s}
-.load-lamp.yellow{background:#F5C842;box-shadow:0 0 8px #F5C842}
-.load-lamp.green{background:#1D9E75;box-shadow:0 0 8px #1D9E75}
-.load-lamp.gray{background:#CCC}
-.load-text{font-size:12px;font-weight:600;color:#8B5A00;transition:color .4s}
-#load-bar.ready .load-text{color:#085041}
-.load-spinner{width:14px;height:14px;border:2px solid #F5C842;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
-#load-bar.ready .load-spinner{display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-/* Push main content down when bar visible */
-#main{top:94px}
-#main.no-bar{top:58px}
 </style>
-<script>
-setTimeout(function(){
-  var bar=document.getElementById('load-bar');
-  var lamp=document.getElementById('load-lamp');
-  var txt=document.getElementById('load-text');
-  var nav=document.getElementById('bottomnav');
-  var spl=document.querySelector('.spl-btn');
-  var spin=document.getElementById('load-spinner');
-  if(bar){bar.style.background='#E1F5EE';bar.style.borderBottomColor='#1D9E75';}
-  if(lamp){lamp.style.background='#1D9E75';lamp.style.boxShadow='0 0 8px #1D9E75';}
-  if(spin){spin.style.display='none';}
-  if(txt){txt.style.color='#085041';txt.textContent='✅ Готово! Нажмите любую кнопку';}
-  if(nav){nav.style.opacity='1';nav.style.pointerEvents='auto';}
-  if(spl){spl.style.opacity='1';spl.style.pointerEvents='auto';}
-  setTimeout(function(){
-    if(bar)bar.style.display='none';
-    var m=document.getElementById('main');
-    if(m){m.style.top='58px';}
-  },2000);
-},1500);
-</script>
-<script>
-var goHome=function(){if(window._goHome)window._goHome();};
-var goTab=function(n){if(window._goTab)window._goTab(n);};
-var goExam=function(){if(window._goExam)window._goExam();};
-var goProgress=function(){if(window._goProgress)window._goProgress();};
-</script>
 </head>
 <body>
 
@@ -271,13 +227,6 @@ var goProgress=function(){if(window._goProgress)window._goProgress();};
     <div id="tb-tm-t">OPAT 25! &reg;</div>
     <div id="tb-tm-s">YAZYKI DLA ZHIZNI</div>
   </div>
-</div>
-
-<!-- LOADING INDICATOR -->
-<div id="load-bar">
-  <div class="load-spinner" id="load-spinner"></div>
-  <div class="load-lamp yellow" id="load-lamp"></div>
-  <div class="load-text" id="load-text">&#x23F3; Загрузка… Кнопки скоро станут активны</div>
 </div>
 
 <div id="main">
@@ -883,7 +832,9 @@ var L = [
   {q:"Что нужно для получения люксембургского гражданства?",o:["Только жить 5 лет","Сдать Sproochentest по люксембургскому","Знать историю страны","Платить налоги 10 лет"],c:1,ok:"Правильно! Sproochentest = обязательный языковой тест для получения гражданства",no:"Нет. Sproochentest — обязательный экзамен по люксембургскому языку",exp:"Для гражданства нужно: жить 5+ лет, пройти курс гражданского образования, сдать Sproochentest (A2-B1)."},
   {q:"Какой уровень нужен для Sproochentest?",o:["A1","A2-B1","B2","C1"],c:1,ok:"Верно! Нужен уровень A2-B1 по люксембургскому",no:"Нет. Sproochentest требует уровень A2-B1",exp:"Именно поэтому наш курс из 77 уроков ведёт с нуля до уровня B1 — достаточного для сдачи экзамена!"}
  ]
-},
+}
+];
+
 {id:16,title:"Wieder a Saisons",icon:"🌤️",level:"A2",ru_title:"Погода и времена года",type:"normal",
  words:[
   {cz:"Et reeent.",ru:"Идёт дождь.",ph:"[Эт рэйэнт]",ic:"🌧️"},
@@ -1870,36 +1821,8 @@ if(false && _pendingNav==='home'||!_pendingNav){_goHome();}
 else if(_pendingNav==='exam'){_goExam();}
 else if(_pendingNav==='progress'){_goProgress();}
 else if(_pendingNav){_goTab(_pendingNav);}
-
-// ══════════════════════════════════════════════
-// ИНДИКАТОР ЗАГРУЗКИ
-// ══════════════════════════════════════════════
-function setReady() {
-  var bar = document.getElementById('load-bar');
-  var lamp = document.getElementById('load-lamp');
-  var text = document.getElementById('load-text');
-  var spinner = document.getElementById('load-spinner');
-  var main = document.getElementById('main');
-  if (!bar) return;
-  // Switch to green
-  bar.classList.add('ready');
-  var nav=document.getElementById('bottomnav');
-  if(nav){nav.style.opacity='1';nav.style.pointerEvents='auto';}
-  var spl=document.querySelector('.spl-btn');
-  if(spl){spl.style.opacity='1';spl.style.pointerEvents='auto';}
-  if (lamp) { lamp.classList.remove('yellow'); lamp.classList.add('green'); }
-  if (spinner) spinner.style.display = 'none';
-  if (text) text.textContent = '\u2705 \u0413\u043e\u0442\u043e\u0432\u043e! \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u043b\u044e\u0431\u0443\u044e \u043a\u043d\u043e\u043f\u043a\u0443';
-  // Hide bar after 2 seconds
-  setTimeout(function() {
-    if (bar) bar.classList.add('hidden');
-    if (main) main.classList.add('no-bar');
-  }, 2000);
-}
-
 buildHome();
 checkVoiceAndShow();
-setReady();
 </script>
 </body>
 </html>
